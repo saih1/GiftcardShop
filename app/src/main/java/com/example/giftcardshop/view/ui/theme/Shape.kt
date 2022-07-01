@@ -1,4 +1,4 @@
-package com.example.giftcardshop.ui.theme
+package com.example.giftcardshop.view.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

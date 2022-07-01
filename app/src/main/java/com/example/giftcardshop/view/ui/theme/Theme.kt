@@ -1,4 +1,4 @@
-package com.example.giftcardshop.ui.theme
+package com.example.giftcardshop.view.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

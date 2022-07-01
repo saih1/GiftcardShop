@@ -1,4 +1,4 @@
-package com.example.giftcardshop.ui.theme
+package com.example.giftcardshop.view.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
