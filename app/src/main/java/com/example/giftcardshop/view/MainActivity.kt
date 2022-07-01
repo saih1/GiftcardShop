@@ -1,6 +1,5 @@
 package com.example.giftcardshop.view
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -12,13 +11,10 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.giftcardshop.data.network.dto.GiftcardDto
 import com.example.giftcardshop.shared.Constants.TAG
-import com.example.giftcardshop.shared.RequestState
 import com.example.giftcardshop.shared.Status
 import com.example.giftcardshop.view.giftcard_list.GiftcardListViewModel
 import com.example.giftcardshop.view.ui.theme.GiftcardShopTheme
