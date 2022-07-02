@@ -1,4 +1,4 @@
-package com.example.giftcardshop.data.data_repository
+package com.example.giftcardshop.domain.domain_repository
 
 import com.example.giftcardshop.data.network.dto.GiftcardDto
 

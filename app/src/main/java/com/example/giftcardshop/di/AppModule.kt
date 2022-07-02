@@ -1,6 +1,6 @@
 package com.example.giftcardshop.di
 
-import com.example.giftcardshop.data.data_repository.GiftcardRepository
+import com.example.giftcardshop.domain.domain_repository.GiftcardRepository
 import com.example.giftcardshop.data.data_repository.GiftcardRepositoryImpl
 import com.example.giftcardshop.data.network.GiftcardApi
 import com.example.giftcardshop.shared.Constants.BASE_URL
