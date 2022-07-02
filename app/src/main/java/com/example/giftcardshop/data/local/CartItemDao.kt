@@ -9,9 +9,6 @@ interface CartItemDao {
     @Query("SELECT * FROM cart_table")
     fun getCartItems(): Flow<List<CartItem>>
 
-    @Query("SELECT * FROM cart_table WHERE id = :id")
-    fun getCartItemById(id: Int): Flow<CartItem>
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addCartItem(cartItem: CartItem)
 

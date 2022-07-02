@@ -1,6 +1,7 @@
 package com.example.giftcardshop.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -18,11 +19,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.giftcardshop.domain.model.Giftcard
+import com.example.giftcardshop.shared.RequestState
 import com.example.giftcardshop.shared.Status
 import com.example.giftcardshop.view.cart_list.CartViewModel
 import com.example.giftcardshop.view.giftcard_list.GiftcardListViewModel
 import com.example.giftcardshop.view.ui.theme.GiftcardShopTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -31,8 +34,11 @@ class MainActivity : ComponentActivity() {
         val giftcardListViewModel: GiftcardListViewModel by viewModels()
         val cartViewModel: CartViewModel by viewModels()
         setContent {
-            cartViewModel.addCart()
             val giftcards = giftcardListViewModel.giftcards.collectAsState()
+            val cartItems = cartViewModel.cartItems.collectAsState()
+                .also {
+                    Log.i("TESTING >>", "${it.value.data}")
+                }
             GiftcardShopTheme {
                 if (giftcards.value.status == Status.ERROR) {
                     ErrorScreen()

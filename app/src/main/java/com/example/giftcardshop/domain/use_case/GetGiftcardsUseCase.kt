@@ -17,7 +17,7 @@ class GetGiftcardsUseCase @Inject constructor(
         return flow {
             try {
                 emit(RequestState.loading(null))
-                val giftcards = repo
+                val giftcards: List<Giftcard> = repo
                     .getGiftcards()
                     .map { dto -> dto.toGiftcard() }
                 emit(RequestState.success(giftcards))

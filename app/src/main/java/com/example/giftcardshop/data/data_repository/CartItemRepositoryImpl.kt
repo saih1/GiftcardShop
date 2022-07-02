@@ -14,10 +14,6 @@ class CartItemRepositoryImpl @Inject constructor(
         return cartItemDao.getCartItems()
     }
 
-    override fun getCartItemById(id: Int): Flow<CartItem> {
-        return cartItemDao.getCartItemById(id)
-    }
-
     override suspend fun addCartItem(cartItem: CartItem) {
         return cartItemDao.addCartItem(cartItem)
     }

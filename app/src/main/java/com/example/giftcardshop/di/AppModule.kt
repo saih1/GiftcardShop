@@ -20,16 +20,12 @@ object AppModule {
     @Provides
     @Singleton
     fun provideGiftcardApi(): GiftcardApi {
+        val moshi = Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(
-                MoshiConverterFactory
-                    .create(Moshi
-                            .Builder()
-                            .add(KotlinJsonAdapterFactory())
-                            .build()
-                    )
-            )
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
             .create(GiftcardApi::class.java)
     }
