@@ -80,10 +80,16 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:5.0.0-alpha.2"
     implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2"
 
-    //Room
+    // Room
     implementation "androidx.room:room-runtime:2.4.2"
     kapt "androidx.room:room-compiler:2.4.2"
     implementation "androidx.room:room-ktx:2.4.2"
+
+    // Navigation with Compose
+    implementation "androidx.navigation:navigation-compose:2.5.0"
+
+    // Accompanist (Jetpack Navigation Compose Animation)
+    implementation "com.google.accompanist:accompanist-navigation-animation:0.22.0-rc"
 
 }
 

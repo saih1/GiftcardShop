@@ -1,4 +1,4 @@
-package com.example.giftcardshop.view.cart_list
+package com.example.giftcardshop.view.cart_view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

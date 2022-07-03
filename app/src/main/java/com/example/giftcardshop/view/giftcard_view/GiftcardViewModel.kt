@@ -1,4 +1,4 @@
-package com.example.giftcardshop.view.giftcard_list
+package com.example.giftcardshop.view.giftcard_view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
-class GiftcardListViewModel @Inject constructor(
+class GiftcardViewModel @Inject constructor(
     private val getGiftcardsUseCase: GetGiftcardsUseCase
 ) : ViewModel() {
 
