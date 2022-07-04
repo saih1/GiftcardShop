@@ -1,4 +1,4 @@
-package com.example.giftcardshop.view.cart_view
+package com.example.giftcardshop.view.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,18 +17,9 @@ import javax.inject.Inject
 @HiltViewModel
 class CartViewModel @Inject constructor(
     private val getCartItemsUseCase: GetCartItemsUseCase,
-    private val addCartItemUseCase: AddCartItemUseCase,
     private val deleteCartItemUseCase: DeleteCartItemUseCase,
     private val clearCartItemsUseCase: ClearCartItemsUseCase
 ) : ViewModel() {
-
-    // Just for testing
-    private val fakeCartItem = CartItem(
-        brand = "brand",
-        value = 10.0,
-        image = "fakeImage",
-        vendor = "vendor"
-    )
 
     private val _cartItems: MutableStateFlow<RequestState<List<CartItem>>> =
         MutableStateFlow(RequestState.idle(null))
@@ -44,15 +35,9 @@ class CartViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun addToCart() {
+    fun deleteFromCart(cartItem: CartItem) {
         viewModelScope.launch(Dispatchers.IO) {
-            addCartItemUseCase.doAction(fakeCartItem)
-        }
-    }
-
-    fun deleteFromCart() {
-        viewModelScope.launch(Dispatchers.IO) {
-            deleteCartItemUseCase.doAction(fakeCartItem)
+            deleteCartItemUseCase.doAction(cartItem)
         }
     }
 

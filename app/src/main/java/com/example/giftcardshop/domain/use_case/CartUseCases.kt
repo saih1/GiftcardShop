@@ -2,7 +2,9 @@ package com.example.giftcardshop.domain.use_case
 
 import com.example.giftcardshop.domain.domain_repository.CartItemRepository
 import com.example.giftcardshop.domain.model.CartItem
+import com.example.giftcardshop.domain.model.Giftcard
 import com.example.giftcardshop.shared.RequestState
+import com.example.giftcardshop.shared.toCartItem
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -29,7 +31,8 @@ class GetCartItemsUseCase @Inject constructor(
 class AddCartItemUseCase @Inject constructor(
     private val cartItemRepository: CartItemRepository
 ) {
-    suspend fun doAction(cartItem: CartItem) {
+    suspend fun doAction(giftcard: Giftcard, selectedValue: Double) {
+        val cartItem = giftcard.toCartItem(selectedValue)
         cartItemRepository.addCartItem(cartItem)
     }
 }
