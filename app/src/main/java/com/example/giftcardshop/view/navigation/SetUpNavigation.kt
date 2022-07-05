@@ -38,6 +38,7 @@ import com.example.giftcardshop.shared.Constants.SPLASH_SCREEN
 import com.example.giftcardshop.view.navigation.destinations.*
 import com.example.giftcardshop.view.viewmodels.CartViewModel
 import com.example.giftcardshop.view.viewmodels.GiftcardViewModel
+import com.example.giftcardshop.view.viewmodels.LoginViewModel
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import kotlinx.coroutines.delay
@@ -46,20 +47,22 @@ import kotlinx.coroutines.delay
 fun SetUpNavigation(
     navController: NavHostController,
     giftcardViewModel: GiftcardViewModel,
-    cartViewModel: CartViewModel
+    cartViewModel: CartViewModel,
+    loginViewModel: LoginViewModel
 ) {
     AnimatedNavHost(
         navController = navController,
-        startDestination = SPLASH_SCREEN
+        startDestination = LOGIN_SCREEN
     ) {
-        splashComposable(
-            navigate = { navController.navigate(LOGIN_SCREEN) {
-                popUpTo(SPLASH_SCREEN) { inclusive = true } }
-            }
-        )
         loginComposable(
+            loginViewModel = loginViewModel,
             navigate = { navController.navigate(LIST_SCREEN) }
         )
+//        splashComposable(
+//            navigate = { navController.navigate(LIST_SCREEN) {
+//                popUpTo(SPLASH_SCREEN) { inclusive = true } }
+//            }
+//        )
         listComposable(
             giftcardViewModel = giftcardViewModel,
             navigate = { navController.navigate(DETAIL_SCREEN) }

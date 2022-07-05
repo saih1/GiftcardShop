@@ -12,7 +12,7 @@ data class RequestState<out T>(
     val message: String?
 ) {
     companion object {
-        fun <T> success(data: T?): RequestState<T> =
+        fun <T> success(data: T): RequestState<T> =
             RequestState(SUCCESS, data, null)
         fun <T> error(msg: String?, data: T?): RequestState<T> =
             RequestState(ERROR, data, msg)
