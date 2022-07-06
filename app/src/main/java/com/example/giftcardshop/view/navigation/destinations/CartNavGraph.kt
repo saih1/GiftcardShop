@@ -7,11 +7,13 @@ import androidx.navigation.NavGraphBuilder
 import com.example.giftcardshop.shared.Constants
 import com.example.giftcardshop.view.screens.cart.CartScreen
 import com.example.giftcardshop.view.viewmodels.CartViewModel
+import com.example.giftcardshop.view.viewmodels.CheckoutViewModel
 import com.google.accompanist.navigation.animation.composable
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.cartComposable(
     cartViewModel: CartViewModel,
+    checkoutViewModel: CheckoutViewModel,
     navigate: () -> Unit
 ) {
     this.composable(
@@ -23,7 +25,10 @@ fun NavGraphBuilder.cartComposable(
             onDeleteItem = {
                 cartViewModel.deleteFromCart(it)
             },
-            navigate = navigate
+            onCheckout = {
+                checkoutViewModel.requestCheckout(it)
+                navigate.invoke()
+            }
         )
     }
 }

@@ -40,7 +40,20 @@ class SignOutUseCase @Inject constructor(
 ) {
     fun doAction(): Flow<RequestState<Boolean>> {
         return flow {
-
+            emit(RequestState.loading(null))
+            try {
+                coroutineScope {
+                    val result = authenticationRepository.signOut()
+                    if (result) {
+                        emit(RequestState.success(true))
+                        authDataStore.clearAuthPersistence()
+                    } else {
+                        emit(RequestState.success(false))
+                    }
+                }
+            } catch (e: Exception) {
+                emit(RequestState.error(e.message, null))
+            }
         }
     }
 }

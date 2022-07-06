@@ -42,8 +42,12 @@ fun NavGraphBuilder.loginComposable(
                 }
             }
             Status.LOADING -> ProgressBar()
-            Status.ERROR -> TODO()
-            Status.IDLE -> TODO()
+            Status.ERROR -> {
+                // TODO: HOW TO PRESENT THE ERROR?
+            }
+            else -> {
+
+            }
         }
     }
 }

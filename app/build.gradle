@@ -94,9 +94,9 @@ dependencies {
     // DataStore Preferences
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
-    //Firebase
-    implementation platform("com.google.firebase:firebase-bom:30.1.0")
-    implementation "com.google.firebase:firebase-auth-ktx"
+//    //Firebase
+//    implementation platform("com.google.firebase:firebase-bom:30.1.0")
+//    implementation "com.google.firebase:firebase-auth-ktx"
 
 }
 

@@ -13,6 +13,7 @@ import com.example.giftcardshop.view.viewmodels.CartViewModel
 import com.example.giftcardshop.view.viewmodels.GiftcardViewModel
 import com.example.giftcardshop.view.navigation.SetUpNavigation
 import com.example.giftcardshop.view.ui.theme.GiftcardShopTheme
+import com.example.giftcardshop.view.viewmodels.CheckoutViewModel
 import com.example.giftcardshop.view.viewmodels.LoginViewModel
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +24,7 @@ class MainActivity : ComponentActivity() {
     private val giftcardViewModel: GiftcardViewModel by viewModels()
     private val cartViewModel: CartViewModel by viewModels()
     private val loginViewModel: LoginViewModel by viewModels()
+    private val checkoutViewModel: CheckoutViewModel by viewModels()
 
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +36,8 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     giftcardViewModel = giftcardViewModel,
                     cartViewModel = cartViewModel,
-                    loginViewModel = loginViewModel
+                    loginViewModel = loginViewModel,
+                    checkoutViewModel = checkoutViewModel,
                 )
             }
         }

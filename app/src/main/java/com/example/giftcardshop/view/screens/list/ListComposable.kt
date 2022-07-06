@@ -1,12 +1,12 @@
 package com.example.giftcardshop.view.screens.list
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -14,29 +14,39 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.giftcardshop.domain.model.Giftcard
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun GiftcardListScreen(
     giftcards: List<Giftcard>,
     onItemSelect: (Giftcard) -> Unit,
-    navigate: () -> Unit
+    navigate: () -> Unit,
+    navigateToCart: () -> Unit,
 ) {
     val scaffoldState = rememberScaffoldState()
     Scaffold(
         scaffoldState = scaffoldState,
-    ) {
-        LazyColumn {
-            items(
-                items = giftcards,
-                key = { it.brand }
-            ) { giftcard ->
-                GiftcardItem(
-                    giftcard = giftcard,
-                    onItemSelect = onItemSelect,
-                    navigate = navigate
-                )
+        content = {
+            Column() {
+                LazyColumn {
+                    items(
+                        items = giftcards,
+                        key = { it.brand }
+                    ) { giftcard ->
+                        GiftcardItem(
+                            giftcard = giftcard,
+                            onItemSelect = onItemSelect,
+                            navigate = navigate
+                        )
+                    }
+                }
+            }
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = navigateToCart) {
+                Icon(Icons.Filled.ShoppingCart, contentDescription = "Cart")
             }
         }
-    }
+    )
 }
 
 // TEST

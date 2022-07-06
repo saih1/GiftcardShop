@@ -1,9 +1,7 @@
 package com.example.giftcardshop.view.screens.cart
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
@@ -13,21 +11,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.giftcardshop.domain.model.CartItem
+import com.example.giftcardshop.shared.calculateTotal
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun CartScreen(
     cartItems: List<CartItem>,
     onDeleteItem: (CartItem) -> Unit,
-    navigate: () -> Unit
+    onCheckout: (amount: Double) -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     Scaffold(
-        scaffoldState = scaffoldState,
+        modifier = Modifier.fillMaxSize(),
+        scaffoldState = scaffoldState
     ) {
         Column {
-            Text(text = "TOTAL = ${cartItems.sumOf {
-                it.value
-            }}")
+            Text(text = "Total: ${cartItems.calculateTotal()}")
 
             LazyColumn {
                 items(
@@ -39,6 +38,10 @@ fun CartScreen(
                         onDeleteItem = onDeleteItem
                     )
                 }
+            }
+
+            Button(onClick = { onCheckout(cartItems.calculateTotal()) }) {
+                Text(text = "Checkout")
             }
         }
     }

@@ -1,11 +1,8 @@
 package com.example.giftcardshop.di
 
-import com.example.giftcardshop.data.data_repository.LocalAuthRepositoryImpl
+import com.example.giftcardshop.data.data_repository.AuthRepositoryImpl
 import com.example.giftcardshop.domain.domain_repository.AuthenticationRepository
-import com.example.giftcardshop.shared.FakeAuthenticator
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.example.giftcardshop.data.fake_apis.FakeAuthenticationApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,13 +14,13 @@ import javax.inject.Singleton
 object AuthenticationModule {
     @Singleton
     @Provides
-    fun provideAuthenticator(): FakeAuthenticator {
-        return FakeAuthenticator()
+    fun provideAuthenticator(): FakeAuthenticationApi {
+        return FakeAuthenticationApi()
     }
 
     @Singleton
     @Provides
-    fun provideAuthRepository(auth: FakeAuthenticator): AuthenticationRepository {
-        return LocalAuthRepositoryImpl(auth)
+    fun provideAuthRepository(auth: FakeAuthenticationApi): AuthenticationRepository {
+        return AuthRepositoryImpl(auth)
     }
 }

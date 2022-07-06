@@ -26,3 +26,5 @@ fun Giftcard.toCartItem(selectedValue: Double): CartItem {
         vendor = this.vendor
     )
 }
+
+fun List<CartItem>.calculateTotal(): Double = this.sumOf(CartItem::value)
