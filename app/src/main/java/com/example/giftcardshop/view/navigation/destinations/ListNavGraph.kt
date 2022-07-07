@@ -17,6 +17,7 @@ fun NavGraphBuilder.listComposable(
     giftcardViewModel: GiftcardViewModel,
     navigate: () -> Unit,
     navigateToCart: () -> Unit,
+    onSignOutClick: () -> Unit,
 ) {
     this.composable(
         route = Constants.LIST_SCREEN
@@ -28,7 +29,8 @@ fun NavGraphBuilder.listComposable(
                 giftcards = giftcards.data ?: emptyList(),
                 onItemSelect = { giftcardViewModel.selectGiftcard(it) },
                 navigate = navigate,
-                navigateToCart = navigateToCart
+                navigateToCart = navigateToCart,
+                onSignOutClick = onSignOutClick
             )
             Status.ERROR -> Text(text = "ERROR!")
         }

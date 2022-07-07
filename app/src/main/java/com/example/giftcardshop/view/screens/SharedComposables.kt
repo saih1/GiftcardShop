@@ -112,6 +112,7 @@ fun LoadingAnimation1(
 @Composable
 fun TestGenericComposable(
     text: String = "Hello",
+    buttonText: String = "Button Text",
     navigate: () -> Unit = {}
 ) {
     Surface(modifier = Modifier.fillMaxSize()) {
@@ -127,7 +128,7 @@ fun TestGenericComposable(
             Button(
                 onClick = navigate
             ) {
-                Text(text = "Navigate")
+                Text(text = buttonText)
             }
         }
     }

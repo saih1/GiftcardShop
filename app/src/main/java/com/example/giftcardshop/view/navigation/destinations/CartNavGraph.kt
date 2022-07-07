@@ -20,6 +20,7 @@ fun NavGraphBuilder.cartComposable(
         route = Constants.CART_SCREEN,
     ) {
         val cartItems by cartViewModel.cartItems.collectAsState()
+
         CartScreen(
             cartItems = cartItems.data ?: emptyList(),
             onDeleteItem = {
@@ -28,6 +29,9 @@ fun NavGraphBuilder.cartComposable(
             onCheckout = {
                 checkoutViewModel.requestCheckout(it)
                 navigate.invoke()
+            },
+            onClearCart = {
+                cartViewModel.clearCart()
             }
         )
     }

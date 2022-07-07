@@ -5,6 +5,7 @@ import com.example.giftcardshop.domain.domain_repository.AuthenticationRepositor
 import com.example.giftcardshop.domain.model.AuthStatus
 import com.example.giftcardshop.shared.RequestState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -45,10 +46,10 @@ class SignOutUseCase @Inject constructor(
                 coroutineScope {
                     val result = authenticationRepository.signOut()
                     if (result) {
-                        emit(RequestState.success(true))
                         authDataStore.clearAuthPersistence()
-                    } else {
                         emit(RequestState.success(false))
+                    } else {
+                        emit(RequestState.success(true))
                     }
                 }
             } catch (e: Exception) {

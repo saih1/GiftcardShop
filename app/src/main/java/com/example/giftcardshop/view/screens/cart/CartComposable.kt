@@ -18,7 +18,8 @@ import com.example.giftcardshop.shared.calculateTotal
 fun CartScreen(
     cartItems: List<CartItem>,
     onDeleteItem: (CartItem) -> Unit,
-    onCheckout: (amount: Double) -> Unit
+    onCheckout: (amount: Double) -> Unit,
+    onClearCart: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     Scaffold(
@@ -42,6 +43,9 @@ fun CartScreen(
 
             Button(onClick = { onCheckout(cartItems.calculateTotal()) }) {
                 Text(text = "Checkout")
+            }
+            Button(onClick = onClearCart ) {
+                Text(text = "Clear Cart")
             }
         }
     }

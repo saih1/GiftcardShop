@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
 import com.example.giftcardshop.shared.Constants
+import com.example.giftcardshop.shared.RequestState
 import com.example.giftcardshop.shared.Status
 import com.example.giftcardshop.view.screens.ProgressBar
 import com.example.giftcardshop.view.screens.TestGenericComposable
@@ -26,7 +27,9 @@ fun NavGraphBuilder.checkoutComposable(
     this.composable(
         route = Constants.CHECKOUT_SCREEN
     ) {
-        val checkoutStatus by checkoutViewModel.checkoutStatus.collectAsState()
+        val checkoutStatus by checkoutViewModel.checkoutStatus.collectAsState().also {
+            println("CHECKOUT! : ${it.value.status} ${it.value.data}")
+        }
 
         when (checkoutStatus.status) {
             Status.LOADING -> ProgressBar()
@@ -34,12 +37,14 @@ fun NavGraphBuilder.checkoutComposable(
                 if (checkoutStatus.data == false) {
                     TestGenericComposable(
                         text = "Failed",
-                        navigate = navigate
+                        navigate = navigate,
+                        buttonText = "Confirm"
                     )
                 } else {
                     TestGenericComposable(
                         text = "Checkout Confirmation",
-                        navigate = navigate
+                        navigate = navigate,
+                        buttonText = "Sure"
                     )
                 }
             }

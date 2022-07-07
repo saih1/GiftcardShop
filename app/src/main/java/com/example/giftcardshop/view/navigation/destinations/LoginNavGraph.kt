@@ -1,6 +1,7 @@
 package com.example.giftcardshop.view.navigation.destinations
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavGraphBuilder
@@ -19,17 +20,17 @@ fun NavGraphBuilder.loginComposable(
     this.composable(
         route = Constants.LOGIN_SCREEN
     ) {
-        val signInStatus by loginViewModel.signInStatus.collectAsState()
-        val dataStoreAuth by loginViewModel.dataStoreStatus.collectAsState()
-
-        if (dataStoreAuth.status == Status.SUCCESS) {
-            if (dataStoreAuth.data?.authStatus == true) {
-                loginViewModel.signIn(
-                    dataStoreAuth.data?.username!!,
-                    dataStoreAuth.data?.password!!
-                )
-            }
+        val signInStatus by loginViewModel.signInStatus.collectAsState().also {
+            println("DEBUG_SAI: SIGN_IN_DATA > ${it.value}")
         }
+//        if (dataStoreAuth.status == Status.SUCCESS) {
+//            if (dataStoreAuth.data?.authStatus == true) {
+//                loginViewModel.signIn(
+//                    dataStoreAuth.data?.username!!,
+//                    dataStoreAuth.data?.password!!
+//                )
+//            }
+//        }
 
         when (signInStatus.status) {
             Status.SUCCESS -> {

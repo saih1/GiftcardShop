@@ -21,6 +21,7 @@ fun GiftcardListScreen(
     onItemSelect: (Giftcard) -> Unit,
     navigate: () -> Unit,
     navigateToCart: () -> Unit,
+    onSignOutClick: () -> Unit,
 ) {
     val scaffoldState = rememberScaffoldState()
     Scaffold(
@@ -39,6 +40,9 @@ fun GiftcardListScreen(
                         )
                     }
                 }
+            }
+            Button(onClick = onSignOutClick) {
+                Text(text = "Sign out")
             }
         },
         floatingActionButton = {

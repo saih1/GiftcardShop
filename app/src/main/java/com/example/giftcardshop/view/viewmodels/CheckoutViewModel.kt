@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,7 +19,7 @@ class CheckoutViewModel @Inject constructor(
     private val requestCheckoutUseCase: RequestCheckoutUseCase
 ) : ViewModel() {
 
-    private val _checkoutStatus: MutableStateFlow<RequestState<Boolean>> =
+    val _checkoutStatus: MutableStateFlow<RequestState<Boolean>> =
         MutableStateFlow(RequestState.idle(null))
     val checkoutStatus: StateFlow<RequestState<Boolean>> = _checkoutStatus
 
@@ -28,8 +29,5 @@ class CheckoutViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun resetCheckoutStatus() {
-        if (_checkoutStatus.value.status == Status.IDLE) return
-        _checkoutStatus.value = RequestState.idle(null)
-    }
+    // TODO: ResetCheckoutStatus() {}
 }

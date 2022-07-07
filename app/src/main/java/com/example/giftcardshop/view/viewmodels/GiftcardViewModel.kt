@@ -6,6 +6,7 @@ import com.example.giftcardshop.domain.model.CartItem
 import com.example.giftcardshop.domain.model.Giftcard
 import com.example.giftcardshop.domain.use_case.AddCartItemUseCase
 import com.example.giftcardshop.domain.use_case.GetGiftcardsUseCase
+import com.example.giftcardshop.domain.use_case.SignOutUseCase
 import com.example.giftcardshop.shared.RequestState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -16,8 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class GiftcardViewModel @Inject constructor(
     private val getGiftcardsUseCase: GetGiftcardsUseCase,
-    private val addCartItemUseCase: AddCartItemUseCase
-) : ViewModel() {
+    private val addCartItemUseCase: AddCartItemUseCase,
+    ) : ViewModel() {
 
     private val _giftcards: MutableStateFlow<RequestState<List<Giftcard>>> =
         MutableStateFlow(RequestState.idle(null))

@@ -3,33 +3,8 @@
 package com.example.giftcardshop.view.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.*
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.navigation.NavGraphBuilder
+import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import com.example.giftcardshop.domain.model.Giftcard
 import com.example.giftcardshop.shared.Constants.CART_SCREEN
 import com.example.giftcardshop.shared.Constants.CHECKOUT_SCREEN
 import com.example.giftcardshop.shared.Constants.DETAIL_SCREEN
@@ -42,8 +17,6 @@ import com.example.giftcardshop.view.viewmodels.CheckoutViewModel
 import com.example.giftcardshop.view.viewmodels.GiftcardViewModel
 import com.example.giftcardshop.view.viewmodels.LoginViewModel
 import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
-import kotlinx.coroutines.delay
 
 @Composable
 fun SetUpNavigation(
@@ -72,6 +45,10 @@ fun SetUpNavigation(
             navigate = { navController.navigate(DETAIL_SCREEN) },
             navigateToCart = {
                 navController.navigate(CART_SCREEN)
+            },
+            onSignOutClick = {
+                loginViewModel.signOut()
+                navController.navigate(LOGIN_SCREEN)
             }
         )
         detailComposable(
@@ -88,7 +65,13 @@ fun SetUpNavigation(
         )
         checkoutComposable(
             checkoutViewModel = checkoutViewModel,
-            navigate = { navController.navigate(LIST_SCREEN) }
+            navigate = {
+                navController.navigate(LIST_SCREEN) {
+                    popUpTo(CHECKOUT_SCREEN) {
+                        inclusive = true
+                    }
+                }
+            }
         )
     }
 }
