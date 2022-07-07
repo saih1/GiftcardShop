@@ -2,11 +2,13 @@ package com.example.giftcardshop.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.giftcardshop.data.data_repository.CartItemRepositoryImpl
+import com.example.giftcardshop.data.data_repository.CartRepositoryImpl
+import com.example.giftcardshop.data.data_repository.PersistenceRepositoryImpl
 import com.example.giftcardshop.data.local.AuthDataStore
 import com.example.giftcardshop.data.local.CartItemDao
 import com.example.giftcardshop.data.local.CartItemDatabase
-import com.example.giftcardshop.domain.domain_repository.CartItemRepository
+import com.example.giftcardshop.domain.domain_repository.CartRepository
+import com.example.giftcardshop.domain.domain_repository.PersistenceRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,13 +37,19 @@ object PersistenceModule {
 
     @Provides
     @Singleton
-    fun provideCartItemRepository(cartItemDao: CartItemDao): CartItemRepository {
-        return CartItemRepositoryImpl(cartItemDao)
+    fun provideCartItemRepository(cartItemDao: CartItemDao): CartRepository {
+        return CartRepositoryImpl(cartItemDao)
     }
 
     @Singleton
     @Provides
     fun provideAuthDataStore(@ApplicationContext context: Context): AuthDataStore {
         return AuthDataStore(context)
+    }
+
+    @Provides
+    @Singleton
+    fun providePersistenceRepository(authDataStore: AuthDataStore): PersistenceRepository {
+        return PersistenceRepositoryImpl(authDataStore)
     }
 }

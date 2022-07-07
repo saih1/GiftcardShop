@@ -2,7 +2,7 @@ package com.example.giftcardshop.view.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.giftcardshop.domain.use_case.GetPersistenceAuthData
+import com.example.giftcardshop.domain.use_case.GetPersistenceAuthUseCase
 import com.example.giftcardshop.domain.use_case.SignInUseCase
 import com.example.giftcardshop.domain.use_case.SignOutUseCase
 import com.example.giftcardshop.shared.RequestState
@@ -18,7 +18,7 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase,
     private val signOutUseCase: SignOutUseCase,
-    private val getPersistenceAuthData: GetPersistenceAuthData
+    private val getPersistenceAuthUseCase: GetPersistenceAuthUseCase
 ) : ViewModel() {
 
     private val _signInStatus: MutableStateFlow<RequestState<Boolean>> = MutableStateFlow(RequestState.success(false))
@@ -42,7 +42,7 @@ class LoginViewModel @Inject constructor(
 
     private fun checkAutoLogin() {
         viewModelScope.launch {
-            val result = getPersistenceAuthData.doAction()
+            val result = getPersistenceAuthUseCase.doAction()
             if (result.authStatus) { signIn(result.username!!, result.password!!) }
         }
     }

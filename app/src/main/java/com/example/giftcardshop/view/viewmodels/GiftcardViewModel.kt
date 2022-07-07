@@ -2,15 +2,16 @@ package com.example.giftcardshop.view.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.giftcardshop.domain.model.CartItem
 import com.example.giftcardshop.domain.model.Giftcard
 import com.example.giftcardshop.domain.use_case.AddCartItemUseCase
 import com.example.giftcardshop.domain.use_case.GetGiftcardsUseCase
-import com.example.giftcardshop.domain.use_case.SignOutUseCase
 import com.example.giftcardshop.shared.RequestState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

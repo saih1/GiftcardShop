@@ -1,6 +1,6 @@
 package com.example.giftcardshop.domain.use_case
 
-import com.example.giftcardshop.domain.domain_repository.CartItemRepository
+import com.example.giftcardshop.domain.domain_repository.CartRepository
 import com.example.giftcardshop.domain.domain_repository.CheckoutRepository
 import com.example.giftcardshop.shared.RequestState
 import kotlinx.coroutines.coroutineScope
@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class RequestCheckoutUseCase @Inject constructor(
     private val checkoutRepository: CheckoutRepository,
-    private val cartItemRepository: CartItemRepository
+    private val cartRepository: CartRepository
 ) {
     fun doAction(amount: Double): Flow<RequestState<Boolean>> {
         return flow {
@@ -20,7 +20,7 @@ class RequestCheckoutUseCase @Inject constructor(
                     val result = checkoutRepository.checkout(amount)
                     if (result) {
                         emit(RequestState.success(result))
-                        cartItemRepository.clearCartItems()
+                        cartRepository.clearCartItems()
                     } else {
                         emit(RequestState.success(result))
                     }

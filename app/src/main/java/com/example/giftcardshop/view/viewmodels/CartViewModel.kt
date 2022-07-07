@@ -3,7 +3,6 @@ package com.example.giftcardshop.view.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.giftcardshop.domain.model.CartItem
-import com.example.giftcardshop.domain.use_case.AddCartItemUseCase
 import com.example.giftcardshop.domain.use_case.ClearCartItemsUseCase
 import com.example.giftcardshop.domain.use_case.DeleteCartItemUseCase
 import com.example.giftcardshop.domain.use_case.GetCartItemsUseCase

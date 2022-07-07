@@ -3,9 +3,6 @@ package com.example.giftcardshop.shared
 import com.example.giftcardshop.data.network.dto.GiftcardDto
 import com.example.giftcardshop.domain.model.CartItem
 import com.example.giftcardshop.domain.model.Giftcard
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 fun GiftcardDto.toGiftcard(): Giftcard {
     return Giftcard(

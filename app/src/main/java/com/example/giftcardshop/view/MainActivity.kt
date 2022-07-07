@@ -1,19 +1,16 @@
 package com.example.giftcardshop.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
-import com.example.giftcardshop.view.viewmodels.CartViewModel
-import com.example.giftcardshop.view.viewmodels.GiftcardViewModel
 import com.example.giftcardshop.view.navigation.SetUpNavigation
 import com.example.giftcardshop.view.ui.theme.GiftcardShopTheme
+import com.example.giftcardshop.view.viewmodels.CartViewModel
 import com.example.giftcardshop.view.viewmodels.CheckoutViewModel
+import com.example.giftcardshop.view.viewmodels.GiftcardViewModel
 import com.example.giftcardshop.view.viewmodels.LoginViewModel
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint

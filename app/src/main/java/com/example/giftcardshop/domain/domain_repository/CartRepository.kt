@@ -3,7 +3,7 @@ package com.example.giftcardshop.domain.domain_repository
 import com.example.giftcardshop.domain.model.CartItem
 import kotlinx.coroutines.flow.Flow
 
-interface CartItemRepository {
+interface CartRepository {
     fun getCartItems(): Flow<List<CartItem>>
 
     suspend fun addCartItem(cartItem: CartItem)
