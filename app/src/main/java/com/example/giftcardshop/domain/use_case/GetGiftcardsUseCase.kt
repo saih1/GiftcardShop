@@ -25,6 +25,8 @@ class GetGiftcardsUseCase @Inject constructor(
                 emit(RequestState.error(e.localizedMessage, null))
             } catch (e: IOException) {
                 emit(RequestState.error(e.localizedMessage, null))
+            } catch (e: Exception) {
+                emit(RequestState.error(e.localizedMessage, null))
             }
         }
     }

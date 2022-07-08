@@ -17,9 +17,9 @@ import com.example.giftcardshop.shared.calculateTotal
 @Composable
 fun CartScreen(
     cartItems: List<CartItem>,
-    onDeleteItem: (CartItem) -> Unit,
-    onCheckout: (amount: Double) -> Unit,
-    onClearCart: () -> Unit
+    onDeleteItemClick: (CartItem) -> Unit,
+    onCheckoutClick: (amount: Double) -> Unit,
+    onClearCartClick: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     Scaffold(
@@ -36,15 +36,15 @@ fun CartScreen(
                 ) { cartItem ->
                     CartItem(
                         cartItem = cartItem,
-                        onDeleteItem = onDeleteItem
+                        onDeleteItemClick = onDeleteItemClick
                     )
                 }
             }
 
-            Button(onClick = { onCheckout(cartItems.calculateTotal()) }) {
+            Button(onClick = { onCheckoutClick(cartItems.calculateTotal()) }) {
                 Text(text = "Checkout")
             }
-            Button(onClick = onClearCart ) {
+            Button(onClick = onClearCartClick ) {
                 Text(text = "Clear Cart")
             }
         }
@@ -55,13 +55,13 @@ fun CartScreen(
 @Composable
 fun CartItem(
     cartItem: CartItem,
-    onDeleteItem: (CartItem) -> Unit
+    onDeleteItemClick: (CartItem) -> Unit
 ) {
     Surface(
         modifier = Modifier
             .fillMaxWidth(),
         onClick = {
-            onDeleteItem(cartItem)
+            onDeleteItemClick(cartItem)
         }
     ) {
         Column(

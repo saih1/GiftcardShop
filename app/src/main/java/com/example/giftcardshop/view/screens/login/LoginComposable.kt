@@ -11,11 +11,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.giftcardshop.domain.model.AuthStatus
 
 @Composable
 fun LoginScreen(
-    onLogin: (username: String, password: String) -> Unit,
+    onLoginClick: (username: String, password: String) -> Unit,
 ) {
     val username = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
@@ -31,7 +30,7 @@ fun LoginScreen(
             )
             Button(
                 onClick = {
-                    onLogin(username.value, password.value)
+                    onLoginClick(username.value, password.value)
                 },
                 enabled = username.value.isNotBlank() && password.value.isNotBlank()
             ) {

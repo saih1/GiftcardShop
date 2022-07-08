@@ -1,7 +1,6 @@
 package com.example.giftcardshop.view.navigation.destinations
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavGraphBuilder
@@ -35,7 +34,7 @@ fun NavGraphBuilder.loginComposable(
         when (signInStatus.status) {
             Status.SUCCESS -> {
                 if (signInStatus.data == false) {
-                    LoginScreen(onLogin = { username, password ->
+                    LoginScreen(onLoginClick = { username, password ->
                         loginViewModel.signIn(username, password)
                     })
                 } else if (signInStatus.data == true) {

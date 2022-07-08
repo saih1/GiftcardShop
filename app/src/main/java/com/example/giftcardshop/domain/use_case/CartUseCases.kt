@@ -32,6 +32,9 @@ class AddCartItemUseCase @Inject constructor(
     private val cartRepository: CartRepository
 ) {
     suspend fun doAction(giftcard: Giftcard, selectedValue: Double) {
+        if (selectedValue <= 0) {
+            throw Exception("Value is equal to or less than 0")
+        }
         val cartItem = giftcard.toCartItem(selectedValue)
         cartRepository.addCartItem(cartItem)
     }

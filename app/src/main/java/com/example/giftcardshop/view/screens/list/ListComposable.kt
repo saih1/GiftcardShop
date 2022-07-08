@@ -13,15 +13,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.giftcardshop.domain.model.Giftcard
+import com.example.giftcardshop.view.screens.AsyncImageBox
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun GiftcardListScreen(
     giftcards: List<Giftcard>,
-    onItemSelect: (Giftcard) -> Unit,
-    navigate: () -> Unit,
+    onItemClick: (Giftcard) -> Unit,
+    onLogoutClick: () -> Unit,
     navigateToCart: () -> Unit,
-    onSignOutClick: () -> Unit,
+    navigateToDetail: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     Scaffold(
@@ -35,13 +36,13 @@ fun GiftcardListScreen(
                     ) { giftcard ->
                         GiftcardItem(
                             giftcard = giftcard,
-                            onItemSelect = onItemSelect,
-                            navigate = navigate
+                            onItemClick = onItemClick,
+                            navigateToDetail = navigateToDetail
                         )
                     }
                 }
             }
-            Button(onClick = onSignOutClick) {
+            Button(onClick = onLogoutClick) {
                 Text(text = "Sign out")
             }
         },
@@ -58,15 +59,15 @@ fun GiftcardListScreen(
 @Composable
 fun GiftcardItem(
     giftcard: Giftcard,
-    onItemSelect: (Giftcard) -> Unit,
-    navigate: () -> Unit
+    onItemClick: (Giftcard) -> Unit,
+    navigateToDetail: () -> Unit
 ) {
     Surface(
         modifier = Modifier
             .fillMaxWidth(),
         onClick = {
-            onItemSelect(giftcard)
-            navigate.invoke()
+            onItemClick(giftcard)
+            navigateToDetail.invoke()
         }
     ) {
         Column(
@@ -90,6 +91,7 @@ fun GiftcardItem(
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
+            AsyncImageBox(imageUrl = giftcard.image)
         }
     }
 }

@@ -7,11 +7,11 @@ import javax.inject.Inject
 class AuthRepositoryImpl @Inject constructor(
     private val authApi: FakeAuthenticationApi,
 ) : AuthenticationRepository {
-    override suspend fun signIn(username: String, password: String): Boolean {
-        return authApi.signIn(username, password)
+    override suspend fun login(username: String, password: String): Boolean {
+        return authApi.requestLogin(username, password)
     }
 
-    override suspend fun signOut(): Boolean {
-        return authApi.signOut()
+    override suspend fun logout(): Boolean {
+        return authApi.requestLogout()
     }
 }

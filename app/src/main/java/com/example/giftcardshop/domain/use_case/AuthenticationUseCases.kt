@@ -14,11 +14,20 @@ class SignInUseCase @Inject constructor(
     private val persistenceRepository: PersistenceRepository
 ) {
     fun doAction(username: String, password: String): Flow<RequestState<Boolean>> {
+        if (username.isEmpty() && password.isEmpty()) {
+            throw Exception("Empty credentials")
+        }
+        if (username.isEmpty()) {
+            throw Exception("Empty username")
+        }
+        if (password.isEmpty()) {
+            throw Exception("Empty password")
+        }
         return flow {
             emit(RequestState.loading(null))
             try {
                 coroutineScope {
-                    val result = authenticationRepository.signIn(username, password)
+                    val result = authenticationRepository.login(username, password)
                     if (result) {
                         emit(RequestState.success(true))
                         persistenceRepository.persistAuthStatus(
@@ -48,7 +57,7 @@ class SignOutUseCase @Inject constructor(
             emit(RequestState.loading(null))
             try {
                 coroutineScope {
-                    val result = authenticationRepository.signOut()
+                    val result = authenticationRepository.logout()
                     if (result) {
                         persistenceRepository.clearPersistence()
                         emit(RequestState.success(false))

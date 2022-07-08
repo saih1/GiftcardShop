@@ -22,7 +22,7 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
-    navigate: () -> Unit
+    navigateToList: () -> Unit
 ) {
     var startAnimation by remember {
         mutableStateOf(false)
@@ -44,7 +44,7 @@ fun SplashScreen(
     LaunchedEffect(key1 = true) {
         startAnimation = true
         delay(1500L)
-        navigate.invoke()
+        navigateToList.invoke()
     }
 
     Splash(offSetState = offSetState, alphaState = alphaState)

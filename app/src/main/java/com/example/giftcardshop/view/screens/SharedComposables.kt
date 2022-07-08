@@ -9,15 +9,26 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.memory.MemoryCache
+import coil.request.ImageRequest
+import coil.size.Scale
+import coil.size.Size
+import com.example.giftcardshop.R
 import kotlinx.coroutines.delay
 
 @Composable
@@ -108,7 +119,6 @@ fun LoadingAnimation1(
     }
 }
 
-@Preview(showBackground = true)
 @Composable
 fun TestGenericComposable(
     text: String = "Hello",
@@ -137,9 +147,38 @@ fun TestGenericComposable(
 @Composable
 fun ProgressBar() {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .widthIn(100.dp, 200.dp)
+            .fillMaxHeight()
+        ,
         contentAlignment = Alignment.Center
     ){
         CircularProgressIndicator()
+    }
+}
+
+@Composable
+fun AsyncImageBox(imageUrl: String) {
+    Box(
+        modifier = Modifier.background(Color.Black),
+        contentAlignment = Alignment.Center
+    ) {
+        var placeholder: MemoryCache.Key? = null
+
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(imageUrl)
+                .crossfade(true)
+                .size(Size.ORIGINAL)
+                .scale(Scale.FIT)
+                .build(),
+            onSuccess = {
+                placeholder = it.result.memoryCacheKey
+            },
+            placeholder = painterResource(id = R.drawable.ic_launcher_background),
+            contentDescription = "Image",
+            contentScale = ContentScale.FillBounds,
+            alignment = Alignment.Center,
+        )
     }
 }

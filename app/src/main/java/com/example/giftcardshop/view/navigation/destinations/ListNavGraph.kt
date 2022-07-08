@@ -27,10 +27,10 @@ fun NavGraphBuilder.listComposable(
             Status.LOADING -> ProgressBar()
             Status.SUCCESS -> GiftcardListScreen(
                 giftcards = giftcards.data ?: emptyList(),
-                onItemSelect = { giftcardViewModel.selectGiftcard(it) },
-                navigate = navigate,
+                onItemClick = { giftcardViewModel.selectGiftcard(it) },
+                navigateToDetail = navigate,
                 navigateToCart = navigateToCart,
-                onSignOutClick = onSignOutClick
+                onLogoutClick = onSignOutClick
             )
             Status.ERROR -> Text(text = "ERROR!")
         }

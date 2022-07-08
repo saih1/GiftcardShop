@@ -23,14 +23,14 @@ fun NavGraphBuilder.cartComposable(
 
         CartScreen(
             cartItems = cartItems.data ?: emptyList(),
-            onDeleteItem = {
+            onDeleteItemClick = {
                 cartViewModel.deleteFromCart(it)
             },
-            onCheckout = {
+            onCheckoutClick = {
                 checkoutViewModel.requestCheckout(it)
                 navigate.invoke()
             },
-            onClearCart = {
+            onClearCartClick = {
                 cartViewModel.clearCart()
             }
         )
