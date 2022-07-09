@@ -68,14 +68,13 @@ class LoginUseCaseTest {
 
     @Test
     fun `Empty credentials, throws Exception`() {
-            try {
-                loginUseCase.doAction("", "")
-            } catch (e: Exception) {
+        runBlocking {
+            val result = kotlin.runCatching {
+                loginUseCase.doAction("", "").last()
+            }.onFailure { assertThat(it).isInstanceOf(Exception::class.java) }
 
-                assertThat(e).also {
-                    it.isInstanceOf(Exception::class.java)
-                    it.hasMessageThat().isEqualTo("Empty credentials")
-                }
-            }
+            assertThat(result.isFailure).isTrue()
+            assertThat(result.exceptionOrNull()?.message).isEqualTo("Empty credentials")
+        }
     }
 }

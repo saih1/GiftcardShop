@@ -22,11 +22,11 @@ class GetGiftcardsUseCase @Inject constructor(
                     .map { dto -> dto.toGiftcard() }
                 emit(RequestState.success(giftcards))
             } catch (e: HttpException) {
-                emit(RequestState.error(e.localizedMessage, null))
+                emit(RequestState.error(e.message, null))
             } catch (e: IOException) {
-                emit(RequestState.error(e.localizedMessage, null))
+                emit(RequestState.error(e.message, null))
             } catch (e: Exception) {
-                emit(RequestState.error(e.localizedMessage, null))
+                emit(RequestState.error(e.message, null))
             }
         }
     }

@@ -38,4 +38,8 @@ class MockPersistenceRepository : PersistenceRepository {
     fun changeAuthStatus(authStatus: AuthStatus) {
         dataStoreAuthStatus = authStatus
     }
+
+    fun setDataStoreAuthStatus(authStatus: AuthStatus) {
+        dataStoreAuthStatus = authStatus
+    }
 }

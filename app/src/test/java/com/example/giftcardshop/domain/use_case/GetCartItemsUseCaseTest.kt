@@ -14,7 +14,7 @@ class GetCartItemsUseCaseTest {
     private lateinit var getCartItemsUseCase: GetCartItemsUseCase
     private lateinit var mockCartRepo: MockCartRepository
 
-    private val mockListOfCarts = listOf(
+    private var mockListOfCarts = listOf(
         CartItem(brand = "A", value = 0.0, image = "A", vendor = "A"),
         CartItem(brand = "B", value = 1.0, image = "B", vendor = "B"),
         CartItem(brand = "C", value = 2.0, image = "C", vendor = "C"),

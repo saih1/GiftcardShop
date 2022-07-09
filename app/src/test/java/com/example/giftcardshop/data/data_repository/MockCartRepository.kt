@@ -38,4 +38,6 @@ class MockCartRepository : CartRepository {
     }
 
     fun getCount(): Int = mockDatabase.count()
+
+    fun findCartInDatabase(cartItem: CartItem): Boolean = mockDatabase.contains(cartItem)
 }

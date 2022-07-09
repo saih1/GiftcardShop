@@ -13,12 +13,12 @@ class RequestCheckoutUseCase @Inject constructor(
     private val cartRepository: CartRepository
 ) {
     fun doAction(amount: Double): Flow<RequestState<Boolean>> {
-        if (amount <= 0) {
-            throw Exception("amount is equal to or less than 0")
+        if (amount <= 0.0) {
+            throw Exception("Invalid amount")
         }
         return flow {
-            emit(RequestState.loading(null))
             try {
+                emit(RequestState.loading(null))
                 coroutineScope {
                     val result = checkoutRepository.checkout(amount)
                     if (result) {
