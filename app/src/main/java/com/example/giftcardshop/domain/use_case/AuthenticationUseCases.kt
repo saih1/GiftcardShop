@@ -9,19 +9,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class SignInUseCase @Inject constructor(
+class LoginUseCase @Inject constructor(
     private val authenticationRepository: AuthenticationRepository,
     private val persistenceRepository: PersistenceRepository
 ) {
     fun doAction(username: String, password: String): Flow<RequestState<Boolean>> {
-        if (username.isEmpty() && password.isEmpty()) {
+        if (username.isEmpty() || password.isEmpty()) {
             throw Exception("Empty credentials")
-        }
-        if (username.isEmpty()) {
-            throw Exception("Empty username")
-        }
-        if (password.isEmpty()) {
-            throw Exception("Empty password")
         }
         return flow {
             emit(RequestState.loading(null))
@@ -48,7 +42,7 @@ class SignInUseCase @Inject constructor(
     }
 }
 
-class SignOutUseCase @Inject constructor(
+class LogoutUseCase @Inject constructor(
     private val authenticationRepository: AuthenticationRepository,
     private val persistenceRepository: PersistenceRepository
 ) {

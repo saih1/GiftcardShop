@@ -16,7 +16,7 @@ class MockAuthenticationRepository : AuthenticationRepository {
         return logoutReturnValue
     }
 
-    // Accessor Methods
+    // Accessor
     fun setLogoutReturnValue(boolean: Boolean) {
         logoutReturnValue = boolean
     }

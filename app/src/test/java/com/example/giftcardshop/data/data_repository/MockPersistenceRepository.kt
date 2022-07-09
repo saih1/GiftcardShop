@@ -25,4 +25,17 @@ class MockPersistenceRepository : PersistenceRepository {
             ))
         }
     }
+
+    // Accessor
+    fun authStatus() : AuthStatus {
+        return dataStoreAuthStatus ?: AuthStatus(
+            username = null,
+            password = null,
+            authStatus = false
+        )
+    }
+
+    fun changeAuthStatus(authStatus: AuthStatus) {
+        dataStoreAuthStatus = authStatus
+    }
 }
