@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.giftcardshop.data.network.dto.Denomination
 import com.example.giftcardshop.domain.model.Giftcard
+import com.example.giftcardshop.view.screens.AsyncImageBox
 
 @Composable
 fun GiftcardDetailScreen(
@@ -33,6 +34,13 @@ fun GiftcardDetailScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            AsyncImageBox(
+                imageUrl = giftcard.image,
+                imageWidth = 400.dp,
+                imageHeight = 220.dp
+            )
+            Divider()
+
             Text(text = "Selected Value : $selectedValue")
 
             Text(
@@ -89,22 +97,3 @@ fun DenominationItem(denomination: Denomination) {
         )
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun GiftcardDetailScreenPreview() {
-//    val fakeGiftcard = Giftcard(
-//        image = "image",
-//        brand = "Nike",
-//        discount = 0.0,
-//        terms = "terms",
-//        denominations = emptyList(),
-//        vendor = "Nike"
-//    )
-//    GiftcardDetailScreen(
-//        giftcard = fakeGiftcard,
-//        onBuyNowClick = {},
-//        onAddToCartClick = {},
-//        navigate = {}
-//    )
-//}

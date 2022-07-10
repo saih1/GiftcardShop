@@ -33,6 +33,7 @@ fun NavGraphBuilder.listComposable(
                 onLogoutClick = onSignOutClick
             )
             Status.ERROR -> Text(text = "ERROR!")
+            else -> {}
         }
     }
 }

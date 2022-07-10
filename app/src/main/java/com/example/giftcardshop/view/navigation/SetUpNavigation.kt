@@ -10,7 +10,6 @@ import com.example.giftcardshop.shared.Constants.CHECKOUT_SCREEN
 import com.example.giftcardshop.shared.Constants.DETAIL_SCREEN
 import com.example.giftcardshop.shared.Constants.LIST_SCREEN
 import com.example.giftcardshop.shared.Constants.LOGIN_SCREEN
-import com.example.giftcardshop.shared.Constants.SPLASH_SCREEN
 import com.example.giftcardshop.view.navigation.destinations.*
 import com.example.giftcardshop.view.viewmodels.CartViewModel
 import com.example.giftcardshop.view.viewmodels.CheckoutViewModel
@@ -18,6 +17,7 @@ import com.example.giftcardshop.view.viewmodels.GiftcardViewModel
 import com.example.giftcardshop.view.viewmodels.LoginViewModel
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SetUpNavigation(
     navController: NavHostController,
@@ -32,13 +32,7 @@ fun SetUpNavigation(
     ) {
         loginComposable(
             loginViewModel = loginViewModel,
-            navigate = { navController.navigate(SPLASH_SCREEN) }
-        )
-        splashComposable(
-            navigate = {
-                navController.navigate(LIST_SCREEN) {
-                popUpTo(LIST_SCREEN) { inclusive = true } }
-            }
+            navigate = { navController.navigate(LIST_SCREEN) }
         )
         listComposable(
             giftcardViewModel = giftcardViewModel,
@@ -48,7 +42,9 @@ fun SetUpNavigation(
             },
             onSignOutClick = {
                 loginViewModel.signOut()
-                navController.navigate(LOGIN_SCREEN)
+                navController.navigate(LOGIN_SCREEN) {
+                    popUpTo(LOGIN_SCREEN)
+                }
             }
         )
         detailComposable(

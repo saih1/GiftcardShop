@@ -39,6 +39,7 @@ fun GiftcardListScreen(
                             onItemClick = onItemClick,
                             navigateToDetail = navigateToDetail
                         )
+                        Divider()
                     }
                 }
             }
@@ -91,7 +92,11 @@ fun GiftcardItem(
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
-            AsyncImageBox(imageUrl = giftcard.image)
+            AsyncImageBox(
+                imageUrl = giftcard.image,
+                imageWidth = 150.dp,
+                imageHeight = 90.dp
+            )
         }
     }
 }
