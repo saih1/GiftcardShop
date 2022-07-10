@@ -5,6 +5,8 @@ package com.example.giftcardshop.view.navigation
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import com.example.giftcardshop.domain.use_case.AddCartItemUseCase
+import com.example.giftcardshop.domain.use_case.GetGiftcardsUseCase
 import com.example.giftcardshop.shared.Constants.CART_SCREEN
 import com.example.giftcardshop.shared.Constants.CHECKOUT_SCREEN
 import com.example.giftcardshop.shared.Constants.DETAIL_SCREEN
@@ -32,27 +34,30 @@ fun SetUpNavigation(
     ) {
         loginComposable(
             loginViewModel = loginViewModel,
-            navigate = { navController.navigate(LIST_SCREEN) }
+            navigateToList = { navController.navigate(LIST_SCREEN) }
         )
         listComposable(
             giftcardViewModel = giftcardViewModel,
-            navigate = { navController.navigate(DETAIL_SCREEN) },
+            loginViewModel = loginViewModel,
+            navigateToDetail = {
+                navController.navigate(DETAIL_SCREEN)
+            },
             navigateToCart = {
                 navController.navigate(CART_SCREEN)
             },
-            onSignOutClick = {
-                loginViewModel.signOut()
-                navController.navigate(LOGIN_SCREEN) {
-                    popUpTo(LOGIN_SCREEN)
-                }
+            navigateToLogin = {
+                navController.navigate(LOGIN_SCREEN)
             }
         )
         detailComposable(
             giftcardViewModel = giftcardViewModel,
-//            navigate = { navController.navigate(CART_SCREEN) },
-            navigate = {
-//                navController.navigate(CART_SCREEN)
-            }
+            checkoutViewModel = checkoutViewModel,
+            navigateToList = {
+                navController.navigate(LIST_SCREEN)
+            },
+            navigateToCheckout = {
+                navController.navigate(CHECKOUT_SCREEN)
+            } ,
         )
         cartComposable(
             cartViewModel = cartViewModel,

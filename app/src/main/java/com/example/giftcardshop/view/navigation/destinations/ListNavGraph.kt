@@ -9,31 +9,28 @@ import com.example.giftcardshop.shared.Constants
 import com.example.giftcardshop.shared.Status
 import com.example.giftcardshop.view.screens.ProgressBar
 import com.google.accompanist.navigation.animation.composable
+import com.example.giftcardshop.view.screens.list.GiftcardList
 import com.example.giftcardshop.view.screens.list.GiftcardListScreen
 import com.example.giftcardshop.view.viewmodels.GiftcardViewModel
+import com.example.giftcardshop.view.viewmodels.LoginViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.listComposable(
     giftcardViewModel: GiftcardViewModel,
-    navigate: () -> Unit,
+    loginViewModel: LoginViewModel,
+    navigateToDetail: () -> Unit,
     navigateToCart: () -> Unit,
-    onSignOutClick: () -> Unit,
+    navigateToLogin: () -> Unit,
 ) {
     this.composable(
         route = Constants.LIST_SCREEN
     ) {
-        val giftcards by giftcardViewModel.giftcards.collectAsState()
-        when (giftcards.status) {
-            Status.LOADING -> ProgressBar()
-            Status.SUCCESS -> GiftcardListScreen(
-                giftcards = giftcards.data ?: emptyList(),
-                onItemClick = { giftcardViewModel.selectGiftcard(it) },
-                navigateToDetail = navigate,
-                navigateToCart = navigateToCart,
-                onLogoutClick = onSignOutClick
-            )
-            Status.ERROR -> Text(text = "ERROR!")
-            else -> {}
-        }
+        GiftcardListScreen(
+            giftcardViewModel = giftcardViewModel,
+            loginViewModel = loginViewModel,
+            navigateToCart = navigateToCart,
+            navigateToLogin = navigateToLogin,
+            navigateToDetail = navigateToDetail
+        )
     }
 }

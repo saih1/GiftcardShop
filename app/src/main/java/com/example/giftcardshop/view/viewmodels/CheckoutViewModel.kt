@@ -2,6 +2,7 @@ package com.example.giftcardshop.view.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.giftcardshop.domain.use_case.RequestBuyNowUseCase
 import com.example.giftcardshop.domain.use_case.RequestCheckoutUseCase
 import com.example.giftcardshop.shared.RequestState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CheckoutViewModel @Inject constructor(
-    private val requestCheckoutUseCase: RequestCheckoutUseCase
+    private val requestCheckoutUseCase: RequestCheckoutUseCase,
+    private val requestBuyNowUseCase: RequestBuyNowUseCase
 ) : ViewModel() {
 
     val _checkoutStatus: MutableStateFlow<RequestState<Boolean>> =
@@ -26,5 +28,10 @@ class CheckoutViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    fun requestBuyNow(amount: Double) {
+        requestBuyNowUseCase.doAction(amount).onEach {
+            _checkoutStatus.value = it
+        }.launchIn(viewModelScope)
+    }
     // TODO: ResetCheckoutStatus() {}
 }

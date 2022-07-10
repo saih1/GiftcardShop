@@ -16,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
@@ -35,6 +37,7 @@ import coil.request.ImageRequest
 import coil.size.Scale
 import coil.size.Size
 import com.example.giftcardshop.R
+import com.example.giftcardshop.view.ui.theme.Shapes
 import kotlinx.coroutines.delay
 
 @Composable
@@ -157,9 +160,8 @@ fun ProgressBar() {
         contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator(
-            modifier = Modifier.align(Alignment.Center),
-            color = Color.Blue,
-            strokeWidth = 10.dp
+            modifier = Modifier
+                .align(Alignment.Center)
         )
     }
 }
@@ -171,29 +173,39 @@ fun AsyncImageBox(
     imageHeight: Dp
 ) {
     Box(
-        modifier = Modifier.background(MaterialTheme.colors.background),
-        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .background(MaterialTheme.colors.background),
+        contentAlignment = Alignment.Center
     ) {
         var placeholder: MemoryCache.Key? = null
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(imageUrl).crossfade(true)
-                .size(Size.ORIGINAL).scale(Scale.FILL)
-                .crossfade(350)
+                .data(imageUrl)
+                .size(Size.ORIGINAL)
+                .scale(Scale.FIT)
+                .crossfade(true)
+                .crossfade(200)
                 .build()
             ,
             onSuccess = {
                 placeholder = it.result.memoryCacheKey
             },
-            placeholder = painterResource(R.drawable.ic_launcher_foreground),
             contentDescription = "Image",
             contentScale = ContentScale.FillBounds,
             alignment = Alignment.Center,
             modifier = Modifier
                 .size(imageWidth, imageHeight)
                 .align(Alignment.Center)
-                .clip(RoundedCornerShape(10.dp))
-                .background(MaterialTheme.colors.background)
+                .clip(RoundedCornerShape(5.dp)),
+            placeholder = painterResource(R.drawable.ic_launcher_foreground),
         )
+    }
+}
+
+@Preview
+@Composable
+fun PreviewAsyncImageBox() {
+    Surface {
+        AsyncImageBox(imageUrl = "", imageWidth = 150.dp, imageHeight = 90.dp)
     }
 }

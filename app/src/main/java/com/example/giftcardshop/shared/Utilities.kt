@@ -1,8 +1,10 @@
 package com.example.giftcardshop.shared
 
+import android.text.Html
 import com.example.giftcardshop.data.network.dto.GiftcardDto
 import com.example.giftcardshop.domain.model.CartItem
 import com.example.giftcardshop.domain.model.Giftcard
+import kotlin.math.roundToInt
 
 fun GiftcardDto.toGiftcard(): Giftcard {
     return Giftcard(
@@ -25,3 +27,9 @@ fun Giftcard.toCartItem(selectedValue: Double): CartItem {
 }
 
 fun List<CartItem>.calculateTotal(): Double = this.sumOf(CartItem::value)
+
+fun Double.discountPercentage(): Int = (100 - this).roundToInt()
+
+fun String.toStringFromHTML(): String = Html
+    .fromHtml(this, Html.FROM_HTML_MODE_LEGACY)
+    .toString()

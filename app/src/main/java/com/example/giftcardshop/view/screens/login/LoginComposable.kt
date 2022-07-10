@@ -6,8 +6,7 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,12 +20,45 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.giftcardshop.shared.Status
+import com.example.giftcardshop.view.screens.ProgressBar
 import com.example.giftcardshop.view.ui.theme.Purple700
 import com.example.giftcardshop.view.ui.theme.Visibility
 import com.example.giftcardshop.view.ui.theme.VisibilityOff
+import com.example.giftcardshop.view.viewmodels.LoginViewModel
 
 @Composable
 fun LoginScreen(
+    loginViewModel: LoginViewModel,
+    navigateToList: () -> Unit
+) {
+    val signInStatus by loginViewModel.signInStatus.collectAsState()
+    val attempts = remember { mutableStateOf(0) }
+    val isError = attempts.value > 0
+
+    when (signInStatus.status) {
+        Status.SUCCESS -> {
+            if (signInStatus.data == false) {
+                LoginComposable(
+                    error = isError,
+                    onLoginClick = { username, password ->
+                        loginViewModel.signIn(username, password)
+                        attempts.value ++
+                    }
+                )
+            } else if (signInStatus.data == true) {
+                attempts.value = 0
+                navigateToList()
+            }
+        }
+        Status.LOADING -> ProgressBar()
+        Status.ERROR -> {}
+        else -> {}
+    }
+}
+
+@Composable
+fun LoginComposable(
     error: Boolean,
     onLoginClick: (username: String, password: String) -> Unit
 ) {
@@ -64,8 +96,12 @@ fun LoginScreen(
                     isError.value = false
                 },
                 label = {
-                    if (isError.value) Text(text = "Invalid Username", color = MaterialTheme.colors.error)
-                    else Text("Username")
+                    if (isError.value) Text(
+                        text = "Invalid Username",
+                        color = MaterialTheme.colors.error
+                    ) else Text(
+                        text = "Username"
+                    )
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 isError = isError.value,
@@ -80,8 +116,10 @@ fun LoginScreen(
                 },
                 singleLine = true,
                 label = {
-                    if (isError.value) Text(text = "Invalid Password", color = MaterialTheme.colors.error)
-                    else Text("Password")
+                    if (isError.value) Text(
+                        text = "Invalid Password",
+                        color = MaterialTheme.colors.error
+                    ) else Text("Password")
                 },
                 visualTransformation =
                     if (passwordHidden.value) PasswordVisualTransformation()
@@ -91,14 +129,19 @@ fun LoginScreen(
                     IconButton(
                         onClick = { passwordHidden.value = !passwordHidden.value }
                     ) {
-                        val visibilityIcon =
-                            if (passwordHidden.value) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
-                        val description = if (passwordHidden.value) "Show password" else "Hide password"
-                        Icon(imageVector = visibilityIcon, contentDescription = description)
+                        Icon(
+                            imageVector =
+                                if (passwordHidden.value) Icons.Filled.Visibility
+                                else Icons.Filled.VisibilityOff,
+                            contentDescription =
+                                if (passwordHidden.value) "Show password"
+                                else "Hide password"
+                        )
                     }
                 },
                 isError = isError.value,
             )
+
             Spacer(modifier = Modifier.height(20.dp))
 
             Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
@@ -115,6 +158,7 @@ fun LoginScreen(
                     Text(text = "Login")
                 }
             }
+
             Spacer(modifier = Modifier.height(20.dp))
 
             ClickableText(
@@ -131,6 +175,12 @@ fun LoginScreen(
 
 @Preview
 @Composable
-fun PreviewLoginScreen() {
-    LoginScreen(error = true, onLoginClick = { _, _ -> })
+fun PreviewLoginScreenError() {
+    LoginComposable(error = true, onLoginClick = { _, _ -> })
+}
+
+@Preview
+@Composable
+fun PreviewLoginScreenDefault() {
+    LoginComposable(error = false, onLoginClick = { _, _ -> })
 }
