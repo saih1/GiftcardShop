@@ -5,8 +5,6 @@ package com.example.giftcardshop.view.navigation
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import com.example.giftcardshop.domain.use_case.AddCartItemUseCase
-import com.example.giftcardshop.domain.use_case.GetGiftcardsUseCase
 import com.example.giftcardshop.shared.Constants.CART_SCREEN
 import com.example.giftcardshop.shared.Constants.CHECKOUT_SCREEN
 import com.example.giftcardshop.shared.Constants.DETAIL_SCREEN
@@ -39,40 +37,27 @@ fun SetUpNavigation(
         listComposable(
             giftcardViewModel = giftcardViewModel,
             loginViewModel = loginViewModel,
-            navigateToDetail = {
-                navController.navigate(DETAIL_SCREEN)
-            },
-            navigateToCart = {
-                navController.navigate(CART_SCREEN)
-            },
-            navigateToLogin = {
-                navController.navigate(LOGIN_SCREEN)
-            }
+            navigateToDetail = { navController.navigate(DETAIL_SCREEN) },
+            navigateToCart = { navController.navigate(CART_SCREEN) },
+            navigateToLogin = { navController.navigate(LOGIN_SCREEN) }
         )
         detailComposable(
             giftcardViewModel = giftcardViewModel,
             checkoutViewModel = checkoutViewModel,
-            navigateToList = {
-                navController.navigate(LIST_SCREEN)
-            },
-            navigateToCheckout = {
-                navController.navigate(CHECKOUT_SCREEN)
-            } ,
+            navigateToList = { navController.navigate(LIST_SCREEN) },
+            navigateToCheckout = { navController.navigate(CHECKOUT_SCREEN) }
         )
         cartComposable(
             cartViewModel = cartViewModel,
             checkoutViewModel = checkoutViewModel,
-            navigate = { navController.navigate(CHECKOUT_SCREEN) }
+            navigateToCheckout = { navController.navigate(CHECKOUT_SCREEN) },
+            navigateToList = { navController.navigate(LIST_SCREEN) }
         )
         checkoutComposable(
             checkoutViewModel = checkoutViewModel,
-            navigate = {
-                navController.navigate(LIST_SCREEN) {
-                    popUpTo(CHECKOUT_SCREEN) {
-                        inclusive = true
-                    }
-                }
-            }
+            navigateToList = { navController.navigate(LIST_SCREEN) {
+                popUpTo(CHECKOUT_SCREEN) { inclusive = true }
+            } }
         )
     }
 }

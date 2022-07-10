@@ -1,31 +1,20 @@
 package com.example.giftcardshop.view.screens
 
-import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.materialIcon
-import androidx.compose.material.icons.materialPath
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -37,118 +26,23 @@ import coil.request.ImageRequest
 import coil.size.Scale
 import coil.size.Size
 import com.example.giftcardshop.R
-import com.example.giftcardshop.view.ui.theme.Shapes
-import kotlinx.coroutines.delay
 
 @Composable
-fun LoadingAnimation(
-    circleColor: Color = Color.Magenta,
-    animationDelay: Int = 1000
-) {
-
-    // circle's scale state
-    var circleScale by remember {
-        mutableStateOf(0f)
-    }
-
-    // animation
-    val circleScaleAnimate = animateFloatAsState(
-        targetValue = circleScale,
-        animationSpec = infiniteRepeatable(
-            animation = tween(
-                durationMillis = animationDelay
-            )
-        )
-    )
-
-    // This is called when the app is launched
-    LaunchedEffect(Unit) {
-        circleScale = 1f
-    }
-
-    // animating circle
-    Box(
-        modifier = Modifier
-            .size(size = 250.dp)
-            .scale(scale = circleScaleAnimate.value)
-            .border(
-                width = 4.dp,
-                color = circleColor.copy(alpha = 1 - circleScaleAnimate.value),
-                shape = CircleShape
-            )
-    )
-}
-
-@Composable
-fun LoadingAnimation1(
-    modifier: Modifier = Modifier,
-    circleSize: Dp = 25.dp,
-    circleColor: Color = MaterialTheme.colors.primary,
-    spaceBetween: Dp = 10.dp,
-    travelDistance: Dp = 20.dp
-) {
-    val circles = listOf(
-        remember { Animatable(initialValue = 0f) },
-        remember { Animatable(initialValue = 0f) },
-        remember { Animatable(initialValue = 0f) }
-    )
-
-    circles.forEachIndexed { index, animatable ->
-        LaunchedEffect(key1 = animatable) {
-            delay(index * 100L)
-            animatable.animateTo(
-                targetValue = 1f,
-                animationSpec = infiniteRepeatable(
-                    animation = keyframes {
-                        durationMillis = 1200
-                        0.0f at 0 with LinearOutSlowInEasing
-                        1.0f at 300 with LinearOutSlowInEasing
-                        0.0f at 600 with LinearOutSlowInEasing
-                        0.0f at 1200 with LinearOutSlowInEasing
-                    },
-                    repeatMode = RepeatMode.Restart
-                )
-            )
-        }
-    }
-
-    val circleValues = circles.map { it.value }
-    val distance = with(LocalDensity.current) { travelDistance.toPx() }
-    val lastCircle = circleValues.size - 1
-
-    Row(modifier = modifier) {
-        circleValues.forEachIndexed { index, value ->
-            Box(modifier = Modifier
-                .size(circleSize)
-                .graphicsLayer { translationY = -value * distance }
-                .background(color = circleColor, shape = CircleShape)
-            )
-            if (index != lastCircle) Spacer(modifier = Modifier.width(spaceBetween))
-        }
-    }
-}
-
-@Composable
-fun TestGenericComposable(
-    text: String = "Hello",
-    buttonText: String = "Button Text",
-    navigate: () -> Unit = {}
-) {
-    Surface(modifier = Modifier.fillMaxSize()) {
+fun GenericErrorComposable() {
+    Surface(Modifier.fillMaxSize()) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            modifier = Modifier
+                .background(MaterialTheme.colors.background)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = text,
-                textAlign = TextAlign.Center,
-                fontSize = 40.sp
+            Icon(
+                modifier = Modifier.size(100.dp),
+                painter = painterResource(id = R.drawable.ic_baseline_cancel),
+                contentDescription = "ERROR",
+                tint = Color.Red
             )
-            Button(
-                onClick = navigate
-            ) {
-                Text(text = buttonText)
-            }
         }
     }
 }
@@ -206,6 +100,10 @@ fun AsyncImageBox(
 @Composable
 fun PreviewAsyncImageBox() {
     Surface {
-        AsyncImageBox(imageUrl = "", imageWidth = 150.dp, imageHeight = 90.dp)
+        AsyncImageBox(
+            imageUrl = "",
+            imageWidth = 150.dp,
+            imageHeight = 90.dp
+        )
     }
 }

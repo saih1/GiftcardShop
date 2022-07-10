@@ -33,5 +33,4 @@ class CheckoutViewModel @Inject constructor(
             _checkoutStatus.value = it
         }.launchIn(viewModelScope)
     }
-    // TODO: ResetCheckoutStatus() {}
 }

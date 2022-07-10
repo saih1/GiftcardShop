@@ -4,6 +4,9 @@ import android.text.Html
 import com.example.giftcardshop.data.network.dto.GiftcardDto
 import com.example.giftcardshop.domain.model.CartItem
 import com.example.giftcardshop.domain.model.Giftcard
+import java.math.BigDecimal
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import kotlin.math.roundToInt
 
 fun GiftcardDto.toGiftcard(): Giftcard {
@@ -33,3 +36,14 @@ fun Double.discountPercentage(): Int = (100 - this).roundToInt()
 fun String.toStringFromHTML(): String = Html
     .fromHtml(this, Html.FROM_HTML_MODE_LEGACY)
     .toString()
+
+fun Double.discountedPrice(discount: Double): Double {
+    val discounted = (this * discount) / 100
+    return BigDecimal(discounted)
+        .setScale(2, RoundingMode.FLOOR)
+        .toDouble()
+}
+
+fun Double.roundToTwoDecimal(): Double {
+    return BigDecimal(this).setScale(2, RoundingMode.FLOOR).toDouble()
+}
