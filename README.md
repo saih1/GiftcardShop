@@ -10,3 +10,4 @@ Zip Candidate Mobile Challenge: Android
 4. Unit Testing of Flow inside the use-cases. Each flow emission should be collected and tested, not just the first or final emission.
 - [https://developer.android.com/kotlin/flow/test](https://developer.android.com/kotlin/flow/test)
 - Flow API or Turbine (recommended libraries for testing Flow)
+5. Thread-safety of the use-cases.
