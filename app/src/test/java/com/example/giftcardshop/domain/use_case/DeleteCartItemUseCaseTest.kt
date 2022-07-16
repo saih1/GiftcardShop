@@ -14,10 +14,10 @@ class DeleteCartItemUseCaseTest {
     private lateinit var mockCartRepo: MockCartRepository
 
     private val mockListOfCarts = listOf(
-        CartItem(brand = "A", value = 0.0, image = "A", vendor = "A"),
-        CartItem(brand = "B", value = 1.0, image = "B", vendor = "B"),
-        CartItem(brand = "C", value = 2.0, image = "C", vendor = "C"),
-        CartItem(brand = "D", value = 3.0, image = "D", vendor = "D")
+        CartItem(brand = "A", value = 0.0, image = "A", vendor = "A", payable = 0.1),
+        CartItem(brand = "B", value = 1.0, image = "B", vendor = "B", payable = 0.2),
+        CartItem(brand = "C", value = 2.0, image = "C", vendor = "C", payable = 0.3),
+        CartItem(brand = "D", value = 3.0, image = "D", vendor = "D", payable = 0.4)
     )
 
     @Before

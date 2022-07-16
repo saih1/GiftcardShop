@@ -3,6 +3,7 @@
 package com.example.giftcardshop.view.screens.detail
 
 import android.annotation.SuppressLint
+import android.text.Html
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.border
@@ -22,10 +23,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.giftcardshop.data.network.dto.Denomination
+import com.example.giftcardshop.domain.model.Denomination
 import com.example.giftcardshop.domain.model.Giftcard
-import com.example.giftcardshop.shared.discountedPrice
-import com.example.giftcardshop.shared.toStringFromHTML
+import com.example.giftcardshop.shared.toCartItem
 import com.example.giftcardshop.view.screens.AsyncImageBox
 import com.example.giftcardshop.view.viewmodels.CheckoutViewModel
 import com.example.giftcardshop.view.viewmodels.GiftcardViewModel
@@ -50,12 +50,12 @@ fun GiftCardDetailScreen(
     ) {
         GiftcardDetailComposable(
             giftcard = selectedGiftcard!!,
-            onBuyNowClick = { giftcard, value ->
-                checkoutViewModel.requestBuyNow(value)
+            onBuyNowClick = { giftcard, denomination ->
+                checkoutViewModel.requestBuyNow(giftcard, denomination)
                 navigateToCheckout()
             },
-            onAddToCartClick = { giftcard, value ->
-                giftcardViewModel.addToCart(giftcard, value)
+            onAddToCartClick = { giftcard, denomination ->
+                giftcardViewModel.addToCart(giftcard, denomination)
             },
         )
     }
@@ -65,10 +65,20 @@ fun GiftCardDetailScreen(
 @Composable
 fun GiftcardDetailComposable(
     giftcard: Giftcard,
-    onBuyNowClick: (Giftcard, Double) -> Unit,
-    onAddToCartClick: (Giftcard, Double) -> Unit,
+    onBuyNowClick: (Giftcard, Denomination) -> Unit,
+    onAddToCartClick: (Giftcard, Denomination) -> Unit,
 ) {
     val scrollState = rememberScrollState()
+
+    var expended by remember {
+        mutableStateOf(false)
+    }
+    var expandedText by remember {
+        mutableStateOf(false)
+    }
+    var selectedDenomination by remember {
+        mutableStateOf(giftcard.denomination.first())
+    }
 
     Surface(
         modifier = Modifier
@@ -78,12 +88,6 @@ fun GiftcardDetailComposable(
                 state = scrollState
             ),
     ) {
-        var expended by remember { mutableStateOf(false) }
-        var expandedText by remember { mutableStateOf(false) }
-        var selectedValue by remember { mutableStateOf(
-            giftcard.denominations.first().price
-        ) }
-        
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top,
@@ -117,7 +121,9 @@ fun GiftcardDetailComposable(
 
             ExpandableText(
                 expanded = expandedText,
-                text = giftcard.terms.toStringFromHTML(),
+                text = Html
+                    .fromHtml(giftcard.terms, Html.FROM_HTML_MODE_LEGACY)
+                    .toString(),
                 modifier = Modifier
                     .animateContentSize(tween(500))
                     .clickable { expandedText = !expandedText }
@@ -144,13 +150,13 @@ fun GiftcardDetailComposable(
             ) {
                 Row {
                     Text(
-                        text = "Value: $ ${selectedValue.toInt()}",
+                        text = "Value: $ ${selectedDenomination.price}",
                         fontFamily = FontFamily.Monospace,
                         textAlign = TextAlign.Center
                     )
                     Box(modifier = Modifier.padding(5.dp))
                     Text(
-                        text = "(Pay: $ ${selectedValue.discountedPrice(giftcard.discount)})",
+                        text = "(Pay: $ ${selectedDenomination.payable})",
                         fontFamily = FontFamily.Monospace,
                         textAlign = TextAlign.Center
                     )
@@ -175,11 +181,11 @@ fun GiftcardDetailComposable(
                     onDismissRequest = { expended = false },
                     modifier = Modifier.size(150.dp)
                 ) {
-                    giftcard.denominations.forEach {
+                    giftcard.denomination.forEach {
                         DropdownMenuItem(
                             onClick = {
                                 expended = false
-                                selectedValue = it.price
+                                selectedDenomination = it
                             },
                             modifier = Modifier.wrapContentSize()
                         ) {
@@ -187,8 +193,7 @@ fun GiftcardDetailComposable(
                                 modifier = Modifier.wrapContentSize()
                             ) {
                                 DenominationItem(
-                                    denomination = it,
-                                    giftcard = giftcard
+                                    denomination = it
                                 )
                                 Divider()
                             }
@@ -198,10 +203,7 @@ fun GiftcardDetailComposable(
             }
             Button(
                 onClick = {
-                    onBuyNowClick(
-                        giftcard,
-                        selectedValue.discountedPrice(giftcard.discount)
-                    )
+                    onBuyNowClick(giftcard, selectedDenomination)
                 },
                 enabled = true,
                 shape = RoundedCornerShape(10.dp),
@@ -217,10 +219,7 @@ fun GiftcardDetailComposable(
             }
             Button(
                 onClick = {
-                    onAddToCartClick(
-                        giftcard,
-                        selectedValue.discountedPrice(giftcard.discount)
-                    )
+                    onAddToCartClick(giftcard, selectedDenomination)
                 },
                 enabled = true,
                 shape = RoundedCornerShape(10.dp),
@@ -240,8 +239,7 @@ fun GiftcardDetailComposable(
 
 @Composable
 fun DenominationItem(
-    denomination: Denomination,
-    giftcard: Giftcard,
+    denomination: Denomination
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -255,7 +253,7 @@ fun DenominationItem(
         )
         Box(Modifier.padding(3.dp))
         Text(
-            text = "Pay $ ${denomination.price.discountedPrice(giftcard.discount)}",
+            text = "Pay $ ${denomination.payable}",
             color = MaterialTheme.colors.onSurface,
             modifier = Modifier.padding(5.dp),
             fontSize = 11.sp
@@ -266,16 +264,12 @@ fun DenominationItem(
 @Preview
 @Composable
 fun DenominationItemPreview() {
-    DenominationItem(denomination = Denomination(
-        price = 20.0,
-        stock = "IN_STOCK",
-        currency = "AUD"
-    ),
-        giftcard = Giftcard(image = "",
-            brand = "",
-            discount = 95.0,
-            terms = "",
-            denominations = listOf(),
-            vendor = "")
+    DenominationItem(
+        denomination = Denomination(
+            price = 20.0,
+            stock = "IN_STOCK",
+            currency = "AUD",
+            payable = 199.0
+        )
     )
 }

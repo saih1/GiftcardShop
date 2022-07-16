@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.giftcardshop.domain.model.Giftcard
 import com.example.giftcardshop.shared.Status.*
-import com.example.giftcardshop.shared.discountPercentage
+import com.example.giftcardshop.shared.toPercentage
 import com.example.giftcardshop.view.screens.AsyncImageBox
 import com.example.giftcardshop.view.screens.ProgressBar
 import com.example.giftcardshop.view.viewmodels.GiftcardViewModel
@@ -141,7 +141,7 @@ fun GiftcardItem(
                             modifier = Modifier.align(Alignment.Center)
                         ) {
                             Text(
-                                text = "Save ${(giftcard.discount).discountPercentage()}%",
+                                text = "Save ${(giftcard.discount).toPercentage()}%",
                                 textAlign = TextAlign.Center,
                                 style = TextStyle(
                                     color = Color.White,
@@ -166,8 +166,10 @@ fun GiftcardItemPreview() {
             image = "link",
             brand = "Apple Store Gift Card",
             discount = 60.74,
-            terms = "The Good Guys Gift Cards do not expire and can only be redeemed at a The Good Guys store in Australia or online at www.thegoodguys.com.au For Full Terms and conditions please visit https://www.thegoodguys.com.au/giftcards",
-            denominations = listOf(),
-            vendor = "DigitalGlue")) {
-    }
+            terms = "",
+            denomination = listOf(),
+            vendor = "DigitalGlue"
+        ),
+        onItemClick = {}
+    )
 }

@@ -108,7 +108,7 @@ fun CartListComposable(
 @Preview
 @Composable
 fun CartItem(
-    cartItem: CartItem = CartItem(id = 0, brand = "Nike", value = 120.0, image = "", vendor = ""),
+    cartItem: CartItem = CartItem(id = 0, brand = "Nike", value = 120.0, image = "", vendor = "", payable = 100.0),
     onDeleteItemClick: (CartItem) -> Unit = {}
 ) {
     Surface(

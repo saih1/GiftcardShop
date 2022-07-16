@@ -2,6 +2,7 @@ package com.example.giftcardshop.domain.use_case
 
 import com.example.giftcardshop.domain.domain_repository.CartRepository
 import com.example.giftcardshop.domain.model.CartItem
+import com.example.giftcardshop.domain.model.Denomination
 import com.example.giftcardshop.domain.model.Giftcard
 import com.example.giftcardshop.shared.RequestState
 import com.example.giftcardshop.shared.toCartItem
@@ -31,11 +32,11 @@ class GetCartItemsUseCase @Inject constructor(
 class AddCartItemUseCase @Inject constructor(
     private val cartRepository: CartRepository
 ) {
-    suspend fun doAction(giftcard: Giftcard, selectedValue: Double) {
-        if (selectedValue <= 0) {
+    suspend fun doAction(giftcard: Giftcard, selectedDenomination: Denomination) {
+        if (selectedDenomination.payable <= 0) {
             throw Exception("Value is equal to or less than 0")
         }
-        val cartItem = giftcard.toCartItem(selectedValue)
+        val cartItem = giftcard.toCartItem(selectedDenomination)
         cartRepository.addCartItem(cartItem)
     }
 }

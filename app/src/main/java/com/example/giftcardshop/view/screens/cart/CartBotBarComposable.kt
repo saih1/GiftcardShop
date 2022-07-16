@@ -23,7 +23,7 @@ import com.example.giftcardshop.shared.roundToTwoDecimal
 @Composable
 fun CartBotBar(
     cartItems: List<CartItem>,
-    onCheckoutClick: (amount: Double) -> Unit
+    onCheckoutClick: (cartItems: List<CartItem>) -> Unit
 ) {
     BottomAppBar(
         modifier = Modifier
@@ -48,7 +48,7 @@ fun CartBotBar(
         }
 
         Button(
-            onClick = { onCheckoutClick(cartItems.calculateTotal()) },
+            onClick = { onCheckoutClick(cartItems) },
             enabled = cartItems.isNotEmpty(),
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
