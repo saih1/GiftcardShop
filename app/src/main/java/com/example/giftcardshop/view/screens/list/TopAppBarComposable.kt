@@ -1,7 +1,10 @@
 package com.example.giftcardshop.view.screens.list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -10,10 +13,14 @@ import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.giftcardshop.view.ui.theme.Shapes
 import com.example.giftcardshop.view.viewmodels.LoginViewModel
 
 @Composable
@@ -22,7 +29,6 @@ fun MainTopAppBar(
     navigateToCart: () -> Unit,
     navigateToLogin: () -> Unit
 ) {
-
     StatelessTopAppBar(
         onLogoutClick = {
             loginViewModel.signOut()
@@ -53,7 +59,8 @@ fun StatelessTopAppBar(
             )
         },
         backgroundColor = MaterialTheme.colors.background,
-        modifier = Modifier.shadow(elevation = 10.dp),
+        modifier = Modifier
+            .shadow(elevation = 20.dp),
         actions = {
             MainTopAppBarActions(
                 onLogoutClick = onLogoutClick,
@@ -119,5 +126,21 @@ fun AppBarProfileAction(
                 )
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun MainTopAppBarPreview() {
+    Surface(
+        Modifier
+            .wrapContentSize()
+            .padding(10.dp)
+            .background(MaterialTheme.colors.background)
+    ) {
+        StatelessTopAppBar(
+            onLogoutClick = {},
+            navigateToCart = {}
+        )
     }
 }

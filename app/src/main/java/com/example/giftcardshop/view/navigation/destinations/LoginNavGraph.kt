@@ -1,6 +1,8 @@
 package com.example.giftcardshop.view.navigation.destinations
 
+import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,8 +21,20 @@ fun NavGraphBuilder.loginComposable(
     loginViewModel: LoginViewModel,
     navigateToList: () -> Unit
 ) {
-    this.composable(route = Constants.LOGIN_SCREEN) {
-
+    this.composable(
+        route = Constants.LOGIN_SCREEN,
+        enterTransition = {
+            slideIntoContainer(
+                animationSpec = tween(500),
+                towards = AnimatedContentScope.SlideDirection.Up)
+        },
+        exitTransition = {
+            this.slideOutOfContainer(
+                animationSpec = tween(500),
+                towards = AnimatedContentScope.SlideDirection.Down
+            )
+        }
+    ) {
         LoginScreen(
             loginViewModel = loginViewModel,
             navigateToList = navigateToList

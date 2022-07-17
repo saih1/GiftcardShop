@@ -1,7 +1,6 @@
 package com.example.giftcardshop.domain.use_case
 
 import com.example.giftcardshop.domain.domain_repository.CheckoutRepository
-import com.example.giftcardshop.domain.model.CartItem
 import com.example.giftcardshop.domain.model.Denomination
 import com.example.giftcardshop.domain.model.Giftcard
 import com.example.giftcardshop.shared.RequestState

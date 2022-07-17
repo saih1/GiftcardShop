@@ -6,7 +6,6 @@ import com.example.giftcardshop.domain.model.Denomination
 import com.example.giftcardshop.domain.model.Giftcard
 import com.example.giftcardshop.shared.RequestState
 import com.example.giftcardshop.shared.toCartItem
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -15,15 +14,13 @@ class GetCartItemsUseCase @Inject constructor(
 ) {
     fun doAction(): Flow<RequestState<List<CartItem>>> {
         return flow {
-            emit(RequestState.loading(null))
-            coroutineScope {
-                try {
-                    cartRepository.getCartItems().collect {
-                        emit(RequestState.success(it))
-                    }
-                } catch (e: Exception) {
-                    emit(RequestState.error(e.message, null))
+            try {
+                emit(RequestState.loading(null))
+                cartRepository.getCartItems().collect {
+                    emit(RequestState.success(it))
                 }
+            } catch (e: Exception) {
+                emit(RequestState.error(e.message, null))
             }
         }
     }

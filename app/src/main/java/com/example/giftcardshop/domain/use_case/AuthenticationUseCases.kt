@@ -18,9 +18,9 @@ class LoginUseCase @Inject constructor(
             throw Exception("Empty credentials")
         }
         return flow {
-            emit(RequestState.loading(null))
             try {
                 coroutineScope {
+                    emit(RequestState.loading(null))
                     val result = authenticationRepository.login(username, password)
                     if (result) {
                         emit(RequestState.success(true))
@@ -48,9 +48,9 @@ class LogoutUseCase @Inject constructor(
 ) {
     fun doAction(): Flow<RequestState<Boolean>> {
         return flow {
-            emit(RequestState.loading(null))
             try {
                 coroutineScope {
+                    emit(RequestState.loading(null))
                     val result = authenticationRepository.logout()
                     if (result) {
                         persistenceRepository.clearPersistence()
