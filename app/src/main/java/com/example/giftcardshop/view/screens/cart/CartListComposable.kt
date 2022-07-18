@@ -28,6 +28,7 @@ import com.example.giftcardshop.domain.model.CartItem
 import com.example.giftcardshop.shared.RequestState
 import com.example.giftcardshop.shared.Status.ERROR
 import com.example.giftcardshop.shared.Status.SUCCESS
+import com.example.giftcardshop.shared.roundToTwoDecimal
 import com.example.giftcardshop.view.screens.AsyncImageBox
 import com.example.giftcardshop.view.screens.GenericErrorComposable
 import com.example.giftcardshop.view.ui.theme.GiftcardShopTheme
@@ -122,7 +123,7 @@ fun CartItemComposable(
             }
             Column(Modifier
                 .align(CenterVertically)
-                .weight(2f)
+                .weight(3f)
             ) {
                 Text(text = cartItem.brand,
                     style = MaterialTheme.typography.h6,
@@ -132,7 +133,7 @@ fun CartItemComposable(
                     style = MaterialTheme.typography.subtitle1,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis, )
-                Text(text = "$ ${cartItem.totalPayable}",
+                Text(text = "$ ${cartItem.totalPayable.roundToTwoDecimal()}",
                     style = MaterialTheme.typography.subtitle1,
                     fontWeight = FontWeight.ExtraBold,
                     maxLines = 1,
@@ -160,68 +161,6 @@ fun CartItemComposable(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun CartItemComposableTest(
-    cartItem: CartItem,
-    onDeleteItemClick: (CartItem) -> Unit = {}
-) {
-    Surface(
-        elevation = 3.dp,
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(10.dp),
-        onClick = { onDeleteItemClick(cartItem) }
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(all = 5.dp)
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(all = 5.dp)
-                    .fillMaxWidth()
-            ) {
-                Row {
-                   AsyncImageBox(
-                       imageUrl = cartItem.image,
-                       imageWidth = 150.dp,
-                       imageHeight = 90.dp)
-                    Column(
-                        Modifier.padding(10.dp)
-                    ) {
-                        Text(
-                            text = cartItem.brand,
-                            style = MaterialTheme.typography.h6,
-                            fontWeight = FontWeight.Bold,
-                            maxLines = 1,
-                        )
-                        Divider(
-                            Modifier.width(160.dp)
-                        )
-                        Text(
-                            text = "$ ${cartItem.value}",
-                            style = MaterialTheme.typography.subtitle1,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    }
-                    Row() {
-                        Box(modifier = Modifier.padding(1.dp))
-                        IconButton(onClick = { onDeleteItemClick(cartItem) }) {
-                           Icon(
-                               imageVector = Icons.Filled.Delete,
-                               contentDescription = "Delete Icon",
-                               tint = MaterialTheme.colors.primaryVariant
-                           )
-                       }
-                    }
-                }
-            }
-        }
-    }
-}
-
 @Preview
 @Composable
 fun CartItemPreviewLight() {
@@ -233,7 +172,7 @@ fun CartItemPreviewLight() {
             image = "",
             vendor = "",
             payable = 100.0,
-            quantity = 0,
+            quantity = 10,
             totalPayable = 0.0
         )) {}
     }
@@ -250,7 +189,7 @@ fun CartItemPreviewDark() {
             image = "",
             vendor = "",
             payable = 100.0,
-            quantity = 1,
+            quantity = 100,
             totalPayable = 0.0
         )) {}
     }
