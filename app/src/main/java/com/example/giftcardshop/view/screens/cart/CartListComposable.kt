@@ -43,6 +43,8 @@ fun CartScreen(
     navigateToList: () -> Unit
 ) {
     val cartItems: RequestState<List<CartItem>> by cartViewModel.cartItems.collectAsState()
+
+
     val scaffoldState = rememberScaffoldState()
 
     Scaffold(
@@ -130,11 +132,16 @@ fun CartItemComposable(
                     style = MaterialTheme.typography.subtitle1,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis, )
-                Text(text = "$ ${cartItem.payable}",
+                Text(text = "$ ${cartItem.totalPayable}",
                     style = MaterialTheme.typography.subtitle1,
                     fontWeight = FontWeight.ExtraBold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis, )
+                Text(text = "Quantity: ${cartItem.quantity}",
+                    style = MaterialTheme.typography.subtitle1,
+                    fontWeight = FontWeight.ExtraBold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis)
             }
             Box(modifier = Modifier
                 .padding(5.dp)
@@ -225,7 +232,9 @@ fun CartItemPreviewLight() {
             value = 120.0,
             image = "",
             vendor = "",
-            payable = 100.0
+            payable = 100.0,
+            quantity = 0,
+            totalPayable = 0.0
         )) {}
     }
 }
@@ -240,7 +249,9 @@ fun CartItemPreviewDark() {
             value = 120.0,
             image = "",
             vendor = "",
-            payable = 100.0
+            payable = 100.0,
+            quantity = 1,
+            totalPayable = 0.0
         )) {}
     }
 }

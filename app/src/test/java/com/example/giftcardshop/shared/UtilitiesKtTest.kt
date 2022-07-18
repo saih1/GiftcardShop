@@ -56,7 +56,8 @@ class UtilitiesKtTest {
 
         val expectedCartItem = CartItem(
             id = 0, brand = "", value = 20.0,
-            image = "", vendor = "", payable = 18.0)
+            image = "", vendor = "", payable = 18.0,
+            totalPayable = 18.0, quantity = 1)
 
         assertThat(giftcard.toCartItem(selectedDenomination))
             .isEqualTo(expectedCartItem)
@@ -76,11 +77,11 @@ class UtilitiesKtTest {
     fun calculateTotal() {
         val cartItems = listOf(
             CartItem(brand = "", value = 0.0, image = "",
-                vendor = "", payable = 10.0),
+                vendor = "", payable = 10.0, totalPayable = 10.0, quantity = 1),
             CartItem(brand = "", value = 0.0, image = "",
-                vendor = "", payable = 20.0),
+                vendor = "", payable = 20.0, totalPayable = 20.0, quantity = 1),
             CartItem(brand = "", value = 0.0, image = "",
-                vendor = "", payable = 30.0)
+                vendor = "", payable = 30.0, totalPayable = 30.0, quantity = 1)
         )
         val expectedTotal = 60.0
 

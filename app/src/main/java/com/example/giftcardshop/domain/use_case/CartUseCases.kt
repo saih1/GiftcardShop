@@ -5,6 +5,7 @@ import com.example.giftcardshop.domain.model.CartItem
 import com.example.giftcardshop.domain.model.Denomination
 import com.example.giftcardshop.domain.model.Giftcard
 import com.example.giftcardshop.shared.RequestState
+import com.example.giftcardshop.shared.incrementQuantity
 import com.example.giftcardshop.shared.toCartItem
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -33,8 +34,12 @@ class AddCartItemUseCase @Inject constructor(
         if (selectedDenomination.payable <= 0) {
             throw Exception("Value is equal to or less than 0")
         }
-        val cartItem = giftcard.toCartItem(selectedDenomination)
-        cartRepository.addCartItem(cartItem)
+        val cartItemToAdd = giftcard.toCartItem(selectedDenomination)
+
+        val existingCart = cartRepository.getCartItemByBrandAndValue(cartItemToAdd).first()
+
+        if (existingCart == null) { cartRepository.addCartItem(cartItemToAdd) }
+        else { cartRepository.updateCartItem(existingCart.incrementQuantity()) }
     }
 }
 

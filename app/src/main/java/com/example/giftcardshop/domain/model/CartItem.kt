@@ -11,5 +11,7 @@ data class CartItem(
     val value: Double,
     val image: String,
     val vendor: String,
-    val payable: Double
+    val payable: Double,
+    val quantity: Int,
+    val totalPayable: Double
 )

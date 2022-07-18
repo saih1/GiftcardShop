@@ -17,4 +17,10 @@ interface CartItemDao {
 
     @Query("DELETE FROM cart_table")
     suspend fun clearCartItems()
+
+    @Update
+    suspend fun updateCartItem(cartItem: CartItem)
+
+    @Query("SELECT * FROM cart_table WHERE brand = :brand AND value = :value")
+    fun getCartItem(brand: String, value: Double): Flow<CartItem>
 }
