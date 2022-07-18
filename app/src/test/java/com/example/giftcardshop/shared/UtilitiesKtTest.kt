@@ -107,4 +107,18 @@ class UtilitiesKtTest {
 
         assertThat(decimalPlaceCount).isEqualTo(2)
     }
+
+    @Test
+    fun incrementQuantity() {
+        val initialCartItem = CartItem(id = 0,
+            brand = "", value = 10.0, image = "",
+            vendor = "", payable = 10.0,
+            quantity = 1, totalPayable = 10.0)
+        val expectedResult = CartItem(id = 0,
+            brand = "", value = 10.0, image = "",
+            vendor = "", payable = 10.0,
+            quantity = 2, totalPayable = 20.0)
+        assertThat(initialCartItem.incrementQuantity())
+            .isEqualTo(expectedResult)
+    }
 }
