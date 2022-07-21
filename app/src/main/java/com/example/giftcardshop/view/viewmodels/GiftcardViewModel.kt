@@ -2,6 +2,7 @@ package com.example.giftcardshop.view.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.giftcardshop.domain.model.Denomination
 import com.example.giftcardshop.domain.model.Giftcard
 import com.example.giftcardshop.domain.use_case.AddCartItemUseCase
 import com.example.giftcardshop.domain.use_case.GetGiftcardsUseCase
@@ -43,9 +44,9 @@ class GiftcardViewModel @Inject constructor(
         _selectedGiftcard.value = giftcard
     }
 
-    fun addToCart(giftcard: Giftcard, value: Double) {
+    fun addToCart(giftcard: Giftcard, denomination: Denomination) {
         viewModelScope.launch(Dispatchers.IO) {
-            addCartItemUseCase.doAction(giftcard, value)
+            addCartItemUseCase.doAction(giftcard, denomination)
         }
     }
 }

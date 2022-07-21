@@ -8,11 +8,8 @@ import com.example.giftcardshop.shared.toGiftcard
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Before
 import org.junit.Test
-import retrofit2.HttpException
 
 class GetGiftcardsUseCaseTest {
 
@@ -20,10 +17,10 @@ class GetGiftcardsUseCaseTest {
     private lateinit var mockGiftCardRepo: MockGiftcardRepository
 
     private var giftCardDtoList = listOf(
-        GiftcardDto(brand = "a", cardTypeStatus = "a", denominations = listOf(),
+        GiftcardDto(brand = "a", cardTypeStatus = "a", denominationDtoList = listOf(),
             disclaimer = "a", discount = 0.0, id = "a", image = "a",
             importantContent = "a", position = 0, terms = "a", vendor = "a"),
-        GiftcardDto(brand = "b", cardTypeStatus = "b", denominations = listOf(),
+        GiftcardDto(brand = "b", cardTypeStatus = "b", denominationDtoList = listOf(),
             disclaimer = "b", discount = 0.0, id = "b", image = "b",
             importantContent = "b", position = 0, terms = "b", vendor = "b"))
 

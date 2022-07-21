@@ -14,15 +14,9 @@ fun DetailTopAppBar(
 ) {
     TopAppBar(
         navigationIcon = {
-            IconButton(
-                onClick = navigateToList
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = "Navigation Back Arrow"
-                )
-            }
-        },
+            IconButton(onClick = navigateToList) {
+                Icon(imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = "Navigation Back Arrow") } },
         title = {},
         backgroundColor = MaterialTheme.colors.background,
         modifier = Modifier.shadow(elevation = 10.dp),

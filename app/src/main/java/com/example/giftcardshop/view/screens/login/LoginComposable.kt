@@ -3,6 +3,7 @@ package com.example.giftcardshop.view.screens.login
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -62,6 +63,11 @@ fun LoginComposable(
     error: Boolean,
     onLoginClick: (username: String, password: String) -> Unit
 ) {
+    val username = rememberSaveable { mutableStateOf("") }
+    val password = rememberSaveable { mutableStateOf("") }
+    val passwordHidden = rememberSaveable { mutableStateOf(true) }
+    val isError = rememberSaveable { mutableStateOf(error) }
+
     Surface(modifier = Modifier.fillMaxSize()) {
         Box(modifier = Modifier.fillMaxSize()) {
             ClickableText(
@@ -74,7 +80,7 @@ fun LoginComposable(
                     fontSize = 14.sp,
                     fontFamily = FontFamily.Default,
                     textDecoration = TextDecoration.Underline,
-                    color = Purple700
+                    color = MaterialTheme.colors.primary
                 )
             )
         }
@@ -84,11 +90,6 @@ fun LoginComposable(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.padding(10.dp)
         ) {
-            val username = rememberSaveable { mutableStateOf("") }
-            val password = rememberSaveable { mutableStateOf("") }
-            val passwordHidden = rememberSaveable { mutableStateOf(true) }
-            val isError = rememberSaveable { mutableStateOf(error) }
-
             TextField(
                 value = username.value,
                 onValueChange = {
@@ -106,6 +107,7 @@ fun LoginComposable(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 isError = isError.value,
             )
+
             Spacer(modifier = Modifier.height(20.dp))
 
             TextField(
@@ -166,7 +168,8 @@ fun LoginComposable(
                 onClick = { },
                 style = TextStyle(
                     fontSize = 14.sp,
-                    fontFamily = FontFamily.Default
+                    fontFamily = FontFamily.Default,
+                    color = MaterialTheme.colors.primary
                 )
             )
         }

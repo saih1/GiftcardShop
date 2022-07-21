@@ -1,13 +1,16 @@
 # GiftcardShop
 Zip Candidate Mobile Challenge: Android
 
-## Improvements to be made
-1. Some of the data conversion logic is inside the Composable functions, conversion should take place in the domain layer. 
-2. Rethink separation of responsibility of ViewModels.
-3. UI states could be better structured to improve reusability, decoupling of code, and testability.
-- State Hoisting 
-- [https://developer.android.com/jetpack/compose/state](https://developer.android.com/jetpack/compose/state)
-4. Unit Testing of Flow inside the use-cases. Each flow emission should be collected and tested, not just the first or final emission.
-- [https://developer.android.com/kotlin/flow/test](https://developer.android.com/kotlin/flow/test)
-- Flow API or Turbine (recommended libraries for testing Flow)
-5. Thread-safety of the use-cases.
+### Tasks
+
+- Have an appropriate implementation for grouped cart items by brand and value
+- Update UI & unit tests accordingly
+- Create a separate branch for all the above changes
+
+Grouping of cart items is handled in the AddToCartUseCase class inside the Domain layer. The function checks if the cart item already exists in the database, if so the cart item is updated with new a totalPayable value and Quantity value. If not, the new item is added to the database. Composable functions responsible for displaying cart data has been tweaked. 
+
+### 3 New test cases are added.
+
+1. Utility function "incrementQuantity()"
+2. `Adding a non-existing cart item to populated database, successfully adds the cart item`()
+3. `Adding an existing cart item, updates the existing items in the database with new values`()

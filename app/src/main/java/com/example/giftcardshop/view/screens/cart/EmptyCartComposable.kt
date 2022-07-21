@@ -22,24 +22,18 @@ import com.example.giftcardshop.view.ui.theme.MediumGray
 @Preview
 @Composable
 fun EmptyCartScreen() {
-    Column(
-        modifier = Modifier
-            .background(MaterialTheme.colors.background)
-            .fillMaxSize(),
+    Column(modifier = Modifier
+        .background(MaterialTheme.colors.background)
+        .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Icon(
-            modifier = Modifier.size(200.dp),
+        Icon(modifier = Modifier.size(150.dp),
             painter = painterResource(id = R.drawable.ic_baseline_cancel),
-            contentDescription = "Empty Cart",
-            tint = MediumGray
-        )
-        Text(
-            text = "Empty Cart",
+            contentDescription = "Empty Cart Icon", tint = MediumGray)
+        Text(text = "Empty Cart",
             color = MediumGray,
             fontWeight = FontWeight.Bold,
-            fontSize = MaterialTheme.typography.h6.fontSize
-        )
+            fontSize = MaterialTheme.typography.h6.fontSize)
     }
 }

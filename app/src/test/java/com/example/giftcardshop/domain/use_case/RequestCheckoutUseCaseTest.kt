@@ -17,11 +17,19 @@ class RequestCheckoutUseCaseTest {
     private lateinit var mockCheckoutRepo: MockCheckoutRepository
     private lateinit var mockCartRepo: MockCartRepository
 
-    private var mockListOfCarts = listOf(
-        CartItem(brand = "A", value = 0.0, image = "A", vendor = "A"),
-        CartItem(brand = "B", value = 1.0, image = "B", vendor = "B"),
-        CartItem(brand = "C", value = 2.0, image = "C", vendor = "C"),
-        CartItem(brand = "D", value = 3.0, image = "D", vendor = "D")
+    private val mockListOfCarts = listOf(
+        CartItem(brand = "A", value = 0.0, image = "A", vendor = "A",
+            payable = 0.1, totalPayable = 0.1, quantity = 1),
+        CartItem(brand = "B", value = 1.0, image = "B", vendor = "B",
+            payable = 0.2, totalPayable = 0.2, quantity = 1),
+        CartItem(brand = "C", value = 2.0, image = "C", vendor = "C",
+            payable = 0.3, totalPayable = 0.3, quantity = 1),
+        CartItem(brand = "D", value = 3.0, image = "D", vendor = "D",
+            payable = 0.4, totalPayable = 0.4, quantity = 1)
+    )
+
+    private val invalidListOfCarts = listOf(
+        CartItem(brand = "A", value = 0.0, image = "A", vendor = "A", payable = -1.0, totalPayable = -1.0, quantity = 1)
     )
 
     @Before
@@ -37,9 +45,8 @@ class RequestCheckoutUseCaseTest {
     @Test
     fun `Successful checkout request returns true and clears cart database`() {
         runBlocking {
-            val totalAmount = mockListOfCarts.sumOf { it.value }
             mockCartRepo.populateMockDatabase(mockListOfCarts)
-            val result = checkoutUseCase.doAction(totalAmount).last()
+            val result = checkoutUseCase.doAction(mockListOfCarts).last()
             val resultExpected = RequestState.success(true)
 
             assertThat(result).isEqualTo(resultExpected)
@@ -50,13 +57,12 @@ class RequestCheckoutUseCaseTest {
     @Test
     fun `Unsuccessful checkout request returns false and keeps cart database`() {
         runBlocking {
-            val totalAmount = mockListOfCarts.sumOf { it.value }
             val expectedCartCount = mockListOfCarts.count()
 
             mockCartRepo.populateMockDatabase(mockListOfCarts)
 
             mockCheckoutRepo.checkoutReturnBoolean(false)
-            val result = checkoutUseCase.doAction(totalAmount).last()
+            val result = checkoutUseCase.doAction(mockListOfCarts).last()
             val resultExpected = RequestState.success(false)
 
             assertThat(result).isEqualTo(resultExpected)
@@ -68,7 +74,7 @@ class RequestCheckoutUseCaseTest {
     fun `Checkout exception, handles exception`() {
         runBlocking {
             mockCheckoutRepo.throwException(true)
-            val result = checkoutUseCase.doAction(10.0).last()
+            val result = checkoutUseCase.doAction(mockListOfCarts).last()
             val resultExpected = RequestState.error("Checkout error", null)
 
             assertThat(result).isEqualTo(resultExpected)
@@ -79,11 +85,11 @@ class RequestCheckoutUseCaseTest {
     fun `Invalid amount, throws Exception`() {
         runBlocking {
             val result = runCatching {
-                checkoutUseCase.doAction(-10.0).last()
+                checkoutUseCase.doAction(invalidListOfCarts).last()
             }.onFailure { assertThat(it).isInstanceOf(Exception::class.java) }
 
             assertThat(result.isFailure).isTrue()
-            assertThat(result.exceptionOrNull()?.message).isEqualTo("Invalid amount")
+            assertThat(result.exceptionOrNull()?.message).isEqualTo("Invalid total amount")
         }
     }
 }

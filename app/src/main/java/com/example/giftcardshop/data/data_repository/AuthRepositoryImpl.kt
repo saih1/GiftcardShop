@@ -2,6 +2,7 @@ package com.example.giftcardshop.data.data_repository
 
 import com.example.giftcardshop.domain.domain_repository.AuthenticationRepository
 import com.example.giftcardshop.data.fake_apis.FakeAuthenticationApi
+import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(

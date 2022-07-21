@@ -25,4 +25,12 @@ class CartRepositoryImpl @Inject constructor(
     override suspend fun clearCartItems() {
         return cartItemDao.clearCartItems()
     }
+
+    override suspend fun getCartItemByBrandAndValue(cartItem: CartItem): Flow<CartItem?> {
+        return cartItemDao.getCartItem(cartItem.brand, cartItem.value)
+    }
+
+    override suspend fun updateCartItem(cartItem: CartItem) {
+        return cartItemDao.updateCartItem(cartItem)
+    }
 }

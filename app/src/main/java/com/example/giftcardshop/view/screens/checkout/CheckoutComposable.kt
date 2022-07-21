@@ -36,13 +36,9 @@ fun CheckoutScreen(
             Status.LOADING -> ProgressBar()
             Status.SUCCESS -> {
                 if (checkoutStatus.data == false) {
-                    FailCheckoutComposable(
-                        onContinueClick = navigateToList
-                    )
+                    FailCheckoutComposable(onContinueClick = navigateToList)
                 } else {
-                    CheckoutComposable(
-                        onContinueClick = navigateToList
-                    )
+                    CheckoutComposable(onContinueClick = navigateToList)
                 }
             }
             Status.ERROR -> GenericErrorComposable()
@@ -53,43 +49,31 @@ fun CheckoutScreen(
 
 @Preview
 @Composable
-fun CheckoutComposable(
-    onContinueClick: () -> Unit = {}
-) {
+fun CheckoutComposable(onContinueClick: () -> Unit = {}) {
     Surface(Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colors.background)
-                .fillMaxSize(),
+        Column(modifier = Modifier
+            .background(MaterialTheme.colors.background)
+            .fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Icon(
-                modifier = Modifier.size(100.dp),
+            Icon(modifier = Modifier.size(100.dp),
                 painter = painterResource(id = R.drawable.ic_baseline_done_all_24),
                 contentDescription = "Successful Checkout",
-                tint = Color.Green
-            )
-            Text(
-                text = "You have successfully checked out",
+                tint = Color.Green)
+            Text(text = "You have successfully checked out",
                 fontWeight = FontWeight.Bold,
                 fontSize = MaterialTheme.typography.h6.fontSize,
-                modifier = Modifier.padding(15.dp)
-            )
-            Button(
-                onClick = onContinueClick,
+                modifier = Modifier.padding(15.dp))
+            Button(onClick = onContinueClick,
                 enabled = true,
                 shape = RoundedCornerShape(10.dp),
-                modifier = Modifier
-                    .size(width = 200.dp, height = 50.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .shadow(10.dp)
+                modifier = Modifier.size(width = 200.dp, height = 50.dp)
+                    .align(Alignment.CenterHorizontally).shadow(10.dp)
             ) {
-                Text(
-                    text = "Continue Shopping",
+                Text(text = "Continue Shopping",
                     fontFamily = FontFamily.Monospace,
-                    fontWeight = FontWeight.Bold
-                )
+                    fontWeight = FontWeight.Bold)
             }
         }
     }
@@ -97,43 +81,31 @@ fun CheckoutComposable(
 
 @Preview
 @Composable
-fun FailCheckoutComposable(
-    onContinueClick: () -> Unit = {}
-) {
+fun FailCheckoutComposable(onContinueClick: () -> Unit = {}) {
     Surface(Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colors.background)
-                .fillMaxSize(),
+        Column(modifier = Modifier
+            .background(MaterialTheme.colors.background)
+            .fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Icon(
-                modifier = Modifier.size(100.dp),
+            Icon(modifier = Modifier.size(100.dp),
                 painter = painterResource(id = R.drawable.ic_baseline_cancel),
                 contentDescription = "Unsuccessful Checkout",
-                tint = Color.Red
-            )
-            Text(
-                text = "Unsuccessful Checkout",
+                tint = Color.Red)
+            Text(text = "Unsuccessful Checkout",
                 fontWeight = FontWeight.Bold,
                 fontSize = MaterialTheme.typography.h6.fontSize,
-                modifier = Modifier.padding(15.dp)
-            )
-            Button(
-                onClick = onContinueClick,
+                modifier = Modifier.padding(15.dp))
+            Button(onClick = onContinueClick,
                 enabled = true,
                 shape = RoundedCornerShape(10.dp),
-                modifier = Modifier
-                    .size(width = 200.dp, height = 50.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .shadow(10.dp)
+                modifier = Modifier.size(width = 200.dp, height = 50.dp)
+                    .align(Alignment.CenterHorizontally).shadow(10.dp)
             ) {
-                Text(
-                    text = "Continue",
+                Text(text = "Continue",
                     fontFamily = FontFamily.Monospace,
-                    fontWeight = FontWeight.Bold
-                )
+                    fontWeight = FontWeight.Bold)
             }
         }
     }

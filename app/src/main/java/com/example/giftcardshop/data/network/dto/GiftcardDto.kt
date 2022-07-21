@@ -1,11 +1,13 @@
 package com.example.giftcardshop.data.network.dto
 
+import com.squareup.moshi.Json
 import java.io.Serializable
 
 data class GiftcardDto(
     val brand: String,
     val cardTypeStatus: String,
-    val denominations: List<Denomination>,
+    @Json(name = "denominations")
+    val denominationDtoList: List<DenominationDto>,
     val disclaimer: String,
     val discount: Double,
     val id: String,

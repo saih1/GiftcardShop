@@ -11,4 +11,8 @@ interface CartRepository {
     suspend fun deleteCartItem(cartItem: CartItem)
 
     suspend fun clearCartItems()
+
+    suspend fun getCartItemByBrandAndValue(cartItem: CartItem): Flow<CartItem?>
+
+    suspend fun updateCartItem(cartItem: CartItem)
 }

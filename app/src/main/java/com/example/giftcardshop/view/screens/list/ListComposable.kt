@@ -1,36 +1,37 @@
+@file:OptIn(ExperimentalMaterialApi::class)
+
 package com.example.giftcardshop.view.screens.list
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.giftcardshop.domain.model.Giftcard
-import com.example.giftcardshop.shared.Status.*
-import com.example.giftcardshop.shared.discountPercentage
+import com.example.giftcardshop.shared.Status.LOADING
+import com.example.giftcardshop.shared.Status.SUCCESS
+import com.example.giftcardshop.shared.toPercentage
 import com.example.giftcardshop.view.screens.AsyncImageBox
 import com.example.giftcardshop.view.screens.ProgressBar
+import com.example.giftcardshop.view.ui.theme.GiftcardShopTheme
 import com.example.giftcardshop.view.viewmodels.GiftcardViewModel
 import com.example.giftcardshop.view.viewmodels.LoginViewModel
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun GiftcardListScreen(
     giftcardViewModel: GiftcardViewModel,
@@ -51,7 +52,7 @@ fun GiftcardListScreen(
                 navigateToLogin = navigateToLogin
             )
         },
-    ) {
+    ) { paddingValues ->
         when (giftcards.status) {
             SUCCESS -> {
                 GiftcardList(
@@ -60,10 +61,12 @@ fun GiftcardListScreen(
                         giftcardViewModel.selectGiftcard(giftcard)
                         navigateToDetail()
                     },
+                    padding = paddingValues
                 )
             }
             LOADING -> ProgressBar()
 //            ERROR -> // TODO Error Composable
+            else -> {}
         }
     }
 }
@@ -72,17 +75,13 @@ fun GiftcardListScreen(
 fun GiftcardList(
     giftcards: List<Giftcard>,
     onItemClick: (Giftcard) -> Unit,
+    padding: PaddingValues
 ) {
-    Column {
+    Column(Modifier.padding(padding)) {
         LazyColumn {
-            items(
-                items = giftcards,
-                key = { it.brand }
-            ) { giftcard ->
-                GiftcardItem(
-                    giftcard = giftcard,
-                    onItemClick = onItemClick,
-                )
+            items(items = giftcards, key = { it.brand })
+            { giftcard -> GiftcardItem(giftcard = giftcard,
+                onItemClick = onItemClick, )
             }
         }
     }
@@ -90,84 +89,88 @@ fun GiftcardList(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun GiftcardItem(
-    giftcard: Giftcard,
-    onItemClick: (Giftcard) -> Unit
-) {
-    Surface(
-        elevation = 3.dp,
-        modifier = Modifier
-            .fillMaxWidth()
+fun GiftcardItem(giftcard: Giftcard, onItemClick: (Giftcard) -> Unit) {
+    Card(
+        onClick = { onItemClick(giftcard) },
+        modifier = Modifier.background(MaterialTheme.colors.background)
             .padding(5.dp),
-        shape = RoundedCornerShape(10.dp),
-        onClick = { onItemClick(giftcard) }
+        elevation = 5.dp
     ) {
-        Column(
-            modifier = Modifier
-                .padding(all = 10.dp)
-                .fillMaxWidth()
-        ) {
-            Row {
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Box(modifier = Modifier
+                .alpha(5f)
+                .align(CenterVertically)
+                .padding(5.dp)) {
                 AsyncImageBox(
                     imageUrl = giftcard.image,
-                    imageWidth = 150.dp,
-                    imageHeight = 90.dp
-                )
-                Column(
-                    Modifier.padding(10.dp)
+                    imageWidth = 150.dp, imageHeight = 90.dp)
+            }
+            Column(modifier = Modifier.alpha(5f)
+                .align(CenterVertically).padding(5.dp)
+            ) {
+                Text(text = giftcard.brand,
+                    style = MaterialTheme.typography.h6,
+                    fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
+                    modifier = Modifier.padding(3.dp).alpha(1f))
+                Text(text = giftcard.vendor,
+                    style = MaterialTheme.typography.subtitle1,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
+                    modifier = Modifier.padding(3.dp).alpha(1f))
+                Box(modifier = Modifier
+                    .padding(3.dp)
+                    .alpha(1f)
+                    .size(80.dp, 20.dp)
+                    .background(color = MaterialTheme.colors.primary,
+                        shape = CircleShape)
                 ) {
-                    Text(
-                        text = giftcard.brand,
-                        style = MaterialTheme.typography.h6,
-                        fontWeight = FontWeight.Bold,
-                        maxLines = 1,
+                    Text(text = "Save ${(giftcard.discount).toPercentage()}%",
+                        style = TextStyle(color = MaterialTheme.colors.onPrimary,
+                            fontSize = 12.sp),
+                        fontWeight = FontWeight.Light,
+                        fontFamily = FontFamily.Monospace,
+                        modifier = Modifier.align(Alignment.Center)
                     )
-                    Text(
-                        text = giftcard.vendor,
-                        style = MaterialTheme.typography.subtitle1,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                    Box(modifier = Modifier.size(5.dp))
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.Start)
-                            .size(80.dp, 20.dp)
-                            .background(
-                                MaterialTheme.colors.primary, shape = CircleShape
-                            )
-                    ) {
-                        Column(
-                            modifier = Modifier.align(Alignment.Center)
-                        ) {
-                            Text(
-                                text = "Save ${(giftcard.discount).discountPercentage()}%",
-                                textAlign = TextAlign.Center,
-                                style = TextStyle(
-                                    color = Color.White,
-                                    fontSize = 12.sp
-                                ),
-                                fontWeight = FontWeight.Light,
-                                fontFamily = FontFamily.Monospace
-                            )
-                        }
-                    }
                 }
             }
         }
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun GiftcardItemPreview() {
-    GiftcardItem(
-        giftcard = Giftcard(
-            image = "link",
-            brand = "Apple Store Gift Card",
-            discount = 60.74,
-            terms = "The Good Guys Gift Cards do not expire and can only be redeemed at a The Good Guys store in Australia or online at www.thegoodguys.com.au For Full Terms and conditions please visit https://www.thegoodguys.com.au/giftcards",
-            denominations = listOf(),
-            vendor = "DigitalGlue")) {
+fun NewGiftcardItemPreviewDark() {
+    GiftcardShopTheme(darkTheme = true) {
+        GiftcardItem(
+            giftcard = Giftcard(
+                image = "",
+                brand = "Apple Store Gift Card",
+                discount = 60.74,
+                terms = "",
+                denomination = listOf(),
+                vendor = "DigitalGlue"
+            ),
+            onItemClick = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun NewGiftcardItemPreviewLight() {
+    GiftcardShopTheme(darkTheme = false) {
+        GiftcardItem(
+            giftcard = Giftcard(
+                image = "",
+                brand = "Apple Store Gift Card",
+                discount = 60.74,
+                terms = "",
+                denomination = listOf(),
+                vendor = "DigitalGlue"
+            ),
+            onItemClick = {}
+        )
     }
 }

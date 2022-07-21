@@ -28,6 +28,20 @@ class MockCartRepository : CartRepository {
         mockDatabase.clear()
     }
 
+    override suspend fun getCartItemByBrandAndValue(cartItem: CartItem): Flow<CartItem?> {
+        val existingItem: CartItem? = mockDatabase.find {
+            it.brand == cartItem.brand && it.value.equals(cartItem.value)
+        }
+        return flow { emit(existingItem) }
+    }
+
+    override suspend fun updateCartItem(cartItem: CartItem) {
+        mockDatabase.removeIf { it.brand == cartItem.brand
+                && it.value == cartItem.value
+        }
+        mockDatabase.add(cartItem)
+    }
+
     // Accessor
     fun throwException(boolean: Boolean) {
         throwException = boolean

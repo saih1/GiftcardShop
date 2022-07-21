@@ -15,27 +15,15 @@ fun CartTopAppBar(
     onClearCartClick: () -> Unit,
     navigateToList: () -> Unit
 ) {
-    TopAppBar(
-        navigationIcon = {
-            IconButton(
-                onClick = navigateToList
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = "Navigation Back Arrow"
-                )
-            }
+    TopAppBar(navigationIcon = {
+        IconButton(onClick = navigateToList) {
+            Icon(imageVector = Icons.Filled.ArrowBack,
+                contentDescription = "Navigation Back Arrow") }
         },
-        title = {
-            Text(text = "Cart")
-        },
+        title = { Text(text = "Cart") },
         backgroundColor = MaterialTheme.colors.background,
         modifier = Modifier.shadow(elevation = 10.dp),
-        actions = {
-            ClearCartAction(
-                onClearCartClick = onClearCartClick
-            )
-        }
+        actions = { ClearCartAction(onClearCartClick = onClearCartClick) }
     )
 }
 
@@ -46,28 +34,20 @@ fun ClearCartAction(
     var expended by remember { mutableStateOf(false) }
 
     IconButton(onClick = { expended = true }) {
-        Icon(
-            imageVector = Icons.Filled.MoreVert,
-            contentDescription = "More Vert Icon",
-        )
+        Icon(imageVector = Icons.Filled.MoreVert,
+            contentDescription = "More Vert Icon", )
         DropdownMenu(
             expanded = expended,
             onDismissRequest = { expended = false }) {
             DropdownMenuItem(
-                onClick = {
-                    expended = false
-                    onClearCartClick()
-                }
+                onClick = { expended = false
+                    onClearCartClick() }
             ) {
-                Text(
-                    text = "Clear",
+                Text(text = "Clear",
                     modifier = Modifier.padding(5.dp),
-                    fontFamily = FontFamily.Monospace
-                )
-                Icon(
-                    imageVector = Icons.Filled.Clear,
-                    contentDescription = "Clear Icon",
-                )
+                    fontFamily = FontFamily.Monospace)
+                Icon(imageVector = Icons.Filled.Clear,
+                    contentDescription = "Clear Icon", )
             }
         }
     }

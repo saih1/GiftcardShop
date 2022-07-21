@@ -1,5 +1,6 @@
 package com.example.giftcardshop.domain.use_case
 
+import com.example.giftcardshop.data.network.dto.GiftcardDto
 import com.example.giftcardshop.domain.domain_repository.GiftcardRepository
 import com.example.giftcardshop.domain.model.Giftcard
 import com.example.giftcardshop.shared.RequestState
@@ -17,9 +18,8 @@ class GetGiftcardsUseCase @Inject constructor(
         return flow {
             try {
                 emit(RequestState.loading(null))
-                val giftcards: List<Giftcard> = repo
-                    .getGiftcards()
-                    .map { dto -> dto.toGiftcard() }
+                val giftcards: List<Giftcard> = repo.getGiftcards()
+                    .map(GiftcardDto::toGiftcard)
                 emit(RequestState.success(giftcards))
             } catch (e: HttpException) {
                 emit(RequestState.error(e.message, null))
