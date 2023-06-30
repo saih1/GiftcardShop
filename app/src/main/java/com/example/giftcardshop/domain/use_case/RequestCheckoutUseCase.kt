@@ -21,15 +21,14 @@ class RequestCheckoutUseCase @Inject constructor(
         return flow {
             try {
                 emit(RequestState.loading(null))
-                coroutineScope {
-                    val result = checkoutRepository.checkout(cartItems)
-                    if (result) {
-                        emit(RequestState.success(result))
-                        cartRepository.clearCartItems()
-                    } else {
-                        emit(RequestState.success(result))
-                    }
+                val result = checkoutRepository.checkout(cartItems)
+                if (result) {
+                    emit(RequestState.success(result))
+                    cartRepository.clearCartItems()
+                } else {
+                    emit(RequestState.success(result))
                 }
+
             } catch (e: Exception) {
                 emit(RequestState.error(e.message, null))
             }

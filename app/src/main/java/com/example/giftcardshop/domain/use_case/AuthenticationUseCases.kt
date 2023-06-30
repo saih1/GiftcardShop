@@ -19,21 +19,19 @@ class LoginUseCase @Inject constructor(
         }
         return flow {
             try {
-                coroutineScope {
-                    emit(RequestState.loading(null))
-                    val result = authenticationRepository.login(username, password)
-                    if (result) {
-                        emit(RequestState.success(true))
-                        persistenceRepository.persistAuthStatus(
-                            AuthStatus(
-                                username = username,
-                                password = password,
-                                authStatus = result
-                            )
+                emit(RequestState.loading(null))
+                val result = authenticationRepository.login(username, password)
+                if (result) {
+                    emit(RequestState.success(true))
+                    persistenceRepository.persistAuthStatus(
+                        AuthStatus(
+                            username = username,
+                            password = password,
+                            authStatus = result
                         )
-                    } else {
-                        emit(RequestState.success(false))
-                    }
+                    )
+                } else {
+                    emit(RequestState.success(false))
                 }
             } catch (e: Exception) {
                 emit(RequestState.error(e.message, null))
@@ -49,15 +47,13 @@ class LogoutUseCase @Inject constructor(
     fun doAction(): Flow<RequestState<Boolean>> {
         return flow {
             try {
-                coroutineScope {
-                    emit(RequestState.loading(null))
-                    val result = authenticationRepository.logout()
-                    if (result) {
-                        persistenceRepository.clearPersistence()
-                        emit(RequestState.success(false))
-                    } else {
-                        emit(RequestState.success(true))
-                    }
+                emit(RequestState.loading(null))
+                val result = authenticationRepository.logout()
+                if (result) {
+                    persistenceRepository.clearPersistence()
+                    emit(RequestState.success(false))
+                } else {
+                    emit(RequestState.success(true))
                 }
             } catch (e: Exception) {
                 emit(RequestState.error(e.message, null))
