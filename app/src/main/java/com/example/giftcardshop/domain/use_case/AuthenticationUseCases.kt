@@ -4,7 +4,6 @@ import com.example.giftcardshop.domain.domain_repository.AuthenticationRepositor
 import com.example.giftcardshop.domain.domain_repository.PersistenceRepository
 import com.example.giftcardshop.domain.model.AuthStatus
 import com.example.giftcardshop.shared.RequestState
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -14,11 +13,11 @@ class LoginUseCase @Inject constructor(
     private val persistenceRepository: PersistenceRepository
 ) {
     fun doAction(username: String, password: String): Flow<RequestState<Boolean>> {
-        if (username.isEmpty() || password.isEmpty()) {
-            throw Exception("Empty credentials")
-        }
         return flow {
             try {
+                if (username.isEmpty() || password.isEmpty()) {
+                    throw Exception("Empty credentials")
+                }
                 emit(RequestState.loading(null))
                 val result = authenticationRepository.login(username, password)
                 if (result) {
@@ -27,7 +26,7 @@ class LoginUseCase @Inject constructor(
                         AuthStatus(
                             username = username,
                             password = password,
-                            authStatus = result
+                            authStatus = true
                         )
                     )
                 } else {
